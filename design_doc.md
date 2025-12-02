@@ -17,7 +17,7 @@ This application is primarily a public-facing educational resource.
 ## 3. Core Features
 
 ### 3.1. AI Mindset Training Module
-A comprehensive, frontend-only training system designed for accessibility to a 50+ audience, breaking down AI concepts into practical, relatable lessons. All lessons are presented within a single page, accessed via scroll navigation, and are implemented as modular React components for better maintainability and scalability.
+A comprehensive, frontend-only training system designed for accessibility to a 50+ audience, breaking down AI concepts into practical, relatable lessons. All lessons are presented within a single page, accessed via scroll navigation.
 
 *   **Part 1: AI Foundations:** Core concepts of AI, distinguishing it from traditional search, and guiding users through their first interaction.
     *   Welcome to Your AI Copilot

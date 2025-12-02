@@ -14,7 +14,7 @@
     *   **Contact Section:** Content for club contact information.
 
 ### 2.2. AI Mindset Training Module - AI Foundations (Part 1 - Integrated into Homepage)
-All lessons from Part 1 are implemented as distinct, modular React components, integrated into the single homepage.
+All lessons from Part 1 are integrated into the single homepage.
 1.  **AI Mindset Hub (`/ai-mindset` is now `/`):** Central landing page with overview and navigation to sections.
 2.  **Lesson 1: Welcome to Your AI Copilot (`#ai-foundations-welcome`):** Introduction to the "AI Mindset" concept.
 3.  **Lesson 2: Beyond a Search Engine (`#ai-foundations-beyond-search`):** Explaining the difference between search and AI conversation.
@@ -22,7 +22,7 @@ All lessons from Part 1 are implemented as distinct, modular React components, i
 5.  **Lesson 4: The Gentle Art of Prompting (`#ai-foundations-prompting`):** Tips for effective AI communication.
 
 ### 2.3. AI Mindset Training Module - AI in Your Hobbies (Part 2 - Integrated into Homepage)
-All lessons from Part 2 are implemented as distinct, modular React components, integrated into the single homepage.
+All lessons from Part 2 are integrated into the single homepage.
 1.  **AI for the Hiker (`#hobbies-hiker`):** Practical AI applications for hiking and outdoor activities.
 2.  **AI for the Book Club (`#hobbies-book-club`):** AI tools for literary discussion and discovery.
 3.  **AI for the Gardener (`#hobbies-gardener`):** AI for plant diagnosis, planning, and gardening tips.
@@ -31,7 +31,7 @@ All lessons from Part 2 are implemented as distinct, modular React components, i
 6.  **AI for the Social Planner (`#hobbies-social-planner`):** AI for organizing outings, trips, and social events.
 
 ### 2.4. AI Mindset Training Module - Practical Life Enhancement (Part 3 - Integrated into Homepage)
-All lessons from Part 3 are implemented as distinct, modular React components, integrated into the single homepage.
+All lessons from Part 3 are integrated into the single homepage.
 1.  **AI in the Kitchen (`#practical-kitchen`):** AI for meal planning, recipe creation, and culinary assistance.
 2.  **Travel Planning Made Easy (`#practical-travel`):** AI for discovering destinations, building itineraries, and managing travel logistics.
 3.  **Staying Connected (`#practical-connected`):** AI for drafting messages and managing social connections.

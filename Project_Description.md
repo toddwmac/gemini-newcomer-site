@@ -12,7 +12,7 @@ The application's central feature is a structured, comprehensive "AI Mindset Tra
 2.  **AI in Your Hobbies:** A series of lessons demonstrating how AI can enhance specific club activities such as hiking, book clubs, gardening, writing, art, and social planning. Each lesson provides practical examples and prompts tailored to the hobby.
 3.  **Practical Life Enhancement:** Lessons focused on everyday AI applications, including meal planning ("AI in the Kitchen"), travel itinerary creation ("Travel Planning Made Easy"), crafting communications ("Staying Connected"), and general efficiency ("AI for General Productivity").
 
-The entire application content is presented as a single, scrollable page, with the Homepage serving as the primary entry point and comprehensive hub for all AI Mindset training modules. These modules are delivered via modular React components for better organization and maintainability.
+The entire application content is presented as a single, scrollable page, with the Homepage serving as the primary entry point and comprehensive hub for all AI Mindset training modules.
 
 ## Architecture
 
@@ -24,7 +24,6 @@ The project is currently implemented as a **frontend-only** static site, priorit
 
 ## Technology Stack
 
-*   **Runtime:** Node.js (for development and build)
 *   **Package Manager:** npm
 *   **Language:** TypeScript, HTML, CSS
 *   **Styling:** Tailwind CSS

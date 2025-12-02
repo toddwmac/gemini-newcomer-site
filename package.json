@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build:tailwind": "npx tailwindcss -i ./src/app/globals.css -o ./styles/main.css",
+    "build:tailwind": "npx tailwindcss -i ./styles/globals.css -o ./styles/main.css",
     "build": "npm run build:tailwind",
     "deploy": "npm run build:tailwind"
   },
@@ -14,4 +14,3 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }
-}
