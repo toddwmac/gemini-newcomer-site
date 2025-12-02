@@ -1,171 +1,360 @@
 // PCN AI Mindset Toolbox - Interactive Features
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('PCN AI Mindset Toolbox loaded');
+// Navigation Router - Simplified Architecture
+// Uses query parameters as primary method, hash as fallback for backward compatibility
+
+// Get lesson ID from URL (checks query param first, then hash)
+function getLessonFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lessonParam = urlParams.get('lesson');
     
-    // 1. AI Conversation Simulation
+    if (lessonParam) {
+        return lessonParam;
+    }
+    
+    // Fallback to hash for backward compatibility
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+        return hash.substring(1);
+    }
+    
+    return null;
+}
+
+// Central navigation function - handles all lesson navigation
+function navigateToLesson(lessonId) {
+    // Validate lesson ID pattern
+    if (!lessonId || (!lessonId.startsWith("ai-foundations-") && 
+                      !lessonId.startsWith("hobbies-") && 
+                      !lessonId.startsWith("practical-"))) {
+        console.warn("Invalid lesson ID:", lessonId);
+        return;
+    }
+    
+    // Update URL with query parameter (remove hash if present)
+    const baseUrl = window.location.pathname;
+    const newUrl = baseUrl + '?lesson=' + encodeURIComponent(lessonId);
+    
+    // Update history without page reload
+    history.pushState({ lesson: lessonId }, '', newUrl);
+    
+    // Load the lesson content
+    loadLessonContent(lessonId);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadHeader();
+    loadFooter();
+    
+    // Initialize interactive features
     initAIConversation();
-    
-    // 2. Smooth scrolling for anchor links
-    initSmoothScrolling();
-    
-    // 3. Interactive lesson cards
+    initNavigation();
     initInteractiveCards();
-    
-    // 4. Progress tracking (local storage)
     initProgressTracking();
-    
-    // 5. Theme toggle (light/dark mode)
     initThemeToggle();
+    
+    // Handle initial page load - check for lesson in URL
+    const lessonId = getLessonFromURL();
+    if (lessonId) {
+        // If hash was used, convert to query parameter
+        if (window.location.hash && !window.location.search.includes('lesson=')) {
+            navigateToLesson(lessonId);
+        } else {
+            // Already using query parameter, just load the content
+            loadLessonContent(lessonId);
+        }
+    }
+    
+    // Handle back/forward browser buttons
+    window.addEventListener("popstate", function(e) {
+        const lessonId = getLessonFromURL();
+        if (lessonId) {
+            loadLessonContent(lessonId);
+        } else {
+            // No lesson in URL, clear content
+            const container = document.getElementById("lesson-content-container");
+            if (container) {
+                container.innerHTML = "";
+            }
+        }
+    });
 });
+
+// Function to load lesson content dynamically
+async function loadLessonContent(lessonId) {
+    console.log("loadLessonContent called with lessonId:", lessonId);
+    const lessonContentContainer = document.getElementById("lesson-content-container");
+    if (!lessonContentContainer) {
+        console.error("lesson-content-container not found!");
+        return;
+    }
+
+    // Clear existing content
+    lessonContentContainer.innerHTML = "Loading lesson...";
+
+    // Map lesson IDs to their respective HTML files
+    const lessonFileMap = {
+        "ai-foundations-section": "ai-foundations-overview.html", // A new overview file for the section
+        "ai-foundations-welcome": "ai-foundations-welcome.html",
+        "ai-foundations-beyond-search": "ai-foundations-beyond-search.html",
+        "ai-foundations-first-conversation": "ai-foundations-first-conversation.html",
+        "ai-foundations-prompting": "ai-foundations-prompting.html",
+        "hobbies-section": "hobbies-overview.html", // New overview file
+        "hobbies-hiker": "hobbies-hiker.html",
+        "hobbies-book-club": "hobbies-book-club.html",
+        "hobbies-gardener": "hobbies-gardener.html",
+        "hobbies-writer": "hobbies-writer.html",
+        "hobbies-artist": "hobbies-artist.html",
+        "hobbies-social-planner": "hobbies-social-planner.html",
+        "practical-life-section": "practical-life-overview.html", // New overview file
+        "practical-kitchen": "practical-kitchen.html",
+        "practical-travel": "practical-travel.html",
+        "practical-connected": "practical-connected.html",
+        "practical-productivity": "practical-productivity.html",
+    };
+
+    const lessonPath = `lessons/${lessonFileMap[lessonId] || '404.html'}`;
+    console.log("Loading lesson from path:", lessonPath);
+
+    // Check if running on file:// protocol (CORS issue)
+    const isFileProtocol = window.location.protocol === 'file:';
+    
+    try {
+        console.log("Fetching lesson content...");
+        const response = await fetch(lessonPath);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const lessonHtml = await response.text();
+        console.log("Lesson content loaded successfully, length:", lessonHtml.length);
+        lessonContentContainer.innerHTML = lessonHtml;
+
+        // Re-initialize interactive elements for the newly loaded content
+        initAIConversation(); // Only if the loaded content contains the AI conversation elements
+        initInteractiveCards(); // For any new cards within the loaded lesson
+        initProgressTracking(); // To apply progress tracking to the new lesson
+        
+        // Scroll to the top of the loaded content
+        lessonContentContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    } catch (error) {
+        console.error(`Failed to load lesson content for ${lessonId}:`, error);
+        console.error(`Attempted path: ${lessonPath}`);
+        console.error(`Protocol: ${window.location.protocol}`);
+        
+        // Provide helpful error message based on the error type
+        let errorMessage = '';
+        let errorDetails = '';
+        
+        if (isFileProtocol) {
+            errorMessage = 'Cannot load lessons when opening file directly';
+            errorDetails = `
+                <p class="text-sm mt-2">This site needs to be served through a web server due to browser security restrictions.</p>
+                <p class="text-sm mt-2 font-semibold">To fix this:</p>
+                <ol class="text-sm mt-2 list-decimal list-inside space-y-1 ml-4">
+                    <li>Open PowerShell in this project directory</li>
+                    <li>Run: <code class="bg-gray-100 px-1 py-0.5 rounded">npm run dev</code></li>
+                    <li>Open the URL shown in your browser (usually http://localhost:8080)</li>
+                </ol>
+                <p class="text-sm mt-2">Or use Python: <code class="bg-gray-100 px-1 py-0.5 rounded">python -m http.server 8080</code></p>
+            `;
+        } else if (error.message.includes('404') || error.message.includes('Failed to fetch')) {
+            errorMessage = `Lesson file not found: ${lessonPath}`;
+            errorDetails = `<p class="text-sm mt-2">The lesson file "${lessonFileMap[lessonId] || 'unknown'}" may be missing from the lessons folder.</p>`;
+        } else {
+            errorMessage = `Error loading lesson: ${lessonId}`;
+            errorDetails = `<p class="text-sm mt-2">Error details: ${error.message}</p>`;
+        }
+        
+        lessonContentContainer.innerHTML = `
+            <div class="p-6 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-red-600 font-semibold">${errorMessage}</p>
+                ${errorDetails}
+                <p class="text-sm mt-4 text-gray-600">Check the browser console (F12) for more details.</p>
+            </div>
+        `;
+    }
+}
 
 // AI Conversation Simulation
 function initAIConversation() {
-    const textarea = document.getElementById('first-conversation-prompt-textarea');
-    const button = document.getElementById('first-conversation-send-button');
-    const responseContainer = document.getElementById('first-conversation-response-container');
-    const responseText = document.getElementById('first-conversation-response-text');
+    const textarea = document.getElementById("first-conversation-prompt-textarea");
+    const button = document.getElementById("first-conversation-send-button");
+    const responseContainer = document.getElementById("first-conversation-response-container");
+    const responseText = document.getElementById("first-conversation-response-text");
     
     if (!textarea || !button) return;
     
     // Sample AI responses based on user input
     const sampleResponses = {
-        'default': "Welcome! I'm your AI copilot. I can help you explore Park City's history, plan activities, or answer questions about the area. What would you like to know more about?",
-        'history': "Park City has a rich history rooted in silver mining! A great place to start is the Park City Museum on Main Street. You could also take a historical walking tour - would you like me to create one for you?",
-        'hiking': "For beginner-friendly hikes with great views, I recommend the Armstrong Trail or the Lost Prospector Trail. Both offer beautiful scenery and are well-maintained. Would you like more details about either trail?",
-        'restaurant': "Park City has excellent dining options! For a casual meal, try Five5eeds or Harvest. For something more upscale, Riverhorse on Main is fantastic. What type of cuisine are you interested in?",
-        'weather': "Park City weather can vary greatly! Summers are mild and perfect for hiking (70s-80s°F), while winters are cold and snowy (20s-30s°F) - ideal for skiing. Always check the forecast before heading out!"
+        "default": "Welcome! I'm your AI copilot. I can help you explore Park City's history, plan activities, or answer questions about the area. What would you like to know more about?",
+        "history": "Park City has a rich history rooted in silver mining! A great place to start is the Park City Museum on Main Street. You could also take a historical walking tour - would you like me to create one for you?",
+        "hiking": "For beginner-friendly hikes with great views, I recommend the Armstrong Trail or the Lost Prospector Trail. Both offer beautiful scenery and are well-maintained. Would you like more details about either trail?",
+        "restaurant": "Park City has excellent dining options! For a casual meal, try Five5eeds or Harvest. For something more upscale, Riverhorse on Main is fantastic. What type of cuisine are you interested in?",
+        "weather": "Park City weather can vary greatly! Summers are mild and perfect for hiking (70s-80s°F), while winters are cold and snowy (20s-30s°F) - ideal for skiing. Always check the forecast before heading out!"
     };
     
-    button.addEventListener('click', function() {
+    button.addEventListener("click", function() {
         const userInput = textarea.value.trim().toLowerCase();
         
         if (!userInput) {
-            alert('Please type a question or prompt first!');
+            alert("Please type a question or prompt first!");
             textarea.focus();
             return;
         }
         
         // Show loading state
-        button.textContent = 'Thinking...';
+        button.textContent = "Thinking...";
         button.disabled = true;
         
         // Determine which response to show based on keywords
         let aiResponse = sampleResponses.default;
         
-        if (userInput.includes('history') || userInput.includes('historical')) {
+        if (userInput.includes("history") || userInput.includes("historical")) {
             aiResponse = sampleResponses.history;
-        } else if (userInput.includes('hike') || userInput.includes('trail') || userInput.includes('walk')) {
+        } else if (userInput.includes("hike") || userInput.includes("trail") || userInput.includes("walk")) {
             aiResponse = sampleResponses.hiking;
-        } else if (userInput.includes('restaurant') || userInput.includes('food') || userInput.includes('eat') || userInput.includes('dinner')) {
+        } else if (userInput.includes("restaurant") || userInput.includes("food") || userInput.includes("eat") || userInput.includes("dinner")) {
             aiResponse = sampleResponses.restaurant;
-        } else if (userInput.includes('weather') || userInput.includes('temperature') || userInput.includes('cold')) {
+        } else if (userInput.includes("weather") || userInput.includes("temperature") || userInput.includes("cold")) {
             aiResponse = sampleResponses.weather;
         }
         
         // Simulate AI thinking delay
         setTimeout(() => {
             responseText.textContent = aiResponse;
-            responseContainer.classList.remove('hidden');
+            responseContainer.classList.remove("hidden");
             
             // Reset button
-            button.textContent = 'Send';
+            button.textContent = "Send";
             button.disabled = false;
             
             // Scroll to response
-            responseContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            responseContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 1000);
     });
     
     // Allow Enter key to submit (but Shift+Enter for new line)
-    textarea.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
+    textarea.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             button.click();
         }
     });
 }
 
-// Smooth scrolling for anchor links
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+// Simple navigation handler - converts hash links to query parameter navigation
+function initNavigation() {
+    // Single event delegation listener for all anchor link clicks
+    document.addEventListener("click", function(e) {
+        const anchor = e.target.closest("a");
+        if (!anchor) return;
+        
+        const href = anchor.getAttribute("href");
+        if (!href) return;
+        
+        // Handle hash links (convert to query parameter navigation)
+        if (href.startsWith("#")) {
+            if (href === "#") {
+                e.preventDefault();
+                return;
+            }
             
-            if (href === '#') return;
+            const targetId = href.substring(1);
             
-            const targetElement = document.querySelector(href);
+            // Check if it's a lesson link
+            if (targetId.startsWith("ai-foundations-") || targetId.startsWith("hobbies-") || targetId.startsWith("practical-")) {
+                e.preventDefault();
+                navigateToLesson(targetId);
+                return;
+            }
+            
+            // Handle internal anchors (scroll to element)
+            const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 e.preventDefault();
                 targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                    behavior: "smooth",
+                    block: "start"
                 });
-                
-                // Update URL without page jump
+                // Update URL with hash for internal anchors
                 history.pushState(null, null, href);
+                return;
             }
-        });
+        }
+        
+        // Handle root link (/) - clear lesson content and scroll to top
+        if (href === "/" || href === window.location.pathname) {
+            e.preventDefault();
+            const lessonContentContainer = document.getElementById("lesson-content-container");
+            if (lessonContentContainer) {
+                lessonContentContainer.innerHTML = "";
+            }
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            history.pushState(null, null, "/");
+        }
+        
+        // Add visual feedback for card-style links
+        if (anchor.classList.contains("block") || anchor.closest(".grid")) {
+            anchor.classList.add("bg-indigo-100", "border-indigo-300");
+            setTimeout(() => {
+                anchor.classList.remove("bg-indigo-100", "border-indigo-300");
+            }, 300);
+        }
     });
 }
 
 // Interactive lesson cards with hover effects
 function initInteractiveCards() {
-    // Add click handlers to lesson cards
-    document.querySelectorAll('a[href^="#"]').forEach(card => {
-        card.addEventListener('click', function() {
-            // Add visual feedback
-            this.classList.add('bg-indigo-100', 'border-indigo-300');
-            setTimeout(() => {
-                this.classList.remove('bg-indigo-100', 'border-indigo-300');
-            }, 300);
-        });
-    });
+    // Note: Click handlers for links are now handled by initNavigation via event delegation
+    // This function only handles visual effects that don't interfere with navigation
     
     // Add subtle animation to section headers
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: "0px 0px -50px 0px"
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fade-in');
+                entry.target.classList.add("animate-fade-in");
             }
         });
     }, observerOptions);
     
     // Observe all section headers
-    document.querySelectorAll('section h1, section h2').forEach(header => {
+    // This part now needs to target dynamically loaded content
+    // The observer will be re-initialized after loadLessonContent
+    document.querySelectorAll("#lesson-content-container section h1, #lesson-content-container section h2").forEach(header => {
         observer.observe(header);
     });
 }
 
 // Progress tracking for lessons
 function initProgressTracking() {
-    const progressKey = 'pcn-ai-lesson-progress';
+    const progressKey = "pcn-ai-lesson-progress";
     
     // Get existing progress or initialize
     let progress = JSON.parse(localStorage.getItem(progressKey)) || {};
     
     // Create progress indicators for each lesson section
-    const lessonSections = document.querySelectorAll('section[id^="ai-foundations-"], section[id^="hobbies-"], section[id^="practical-"]');
+    const lessonSections = document.querySelectorAll("#lesson-content-container section[id^=\"ai-foundations-\"], #lesson-content-container section[id^=\"hobbies-\"], #lesson-content-container section[id^=\"practical-\"]");
     
     lessonSections.forEach(section => {
         const sectionId = section.id;
         const isCompleted = progress[sectionId] || false;
         
         // Add a completion checkbox
-        const header = section.querySelector('h1');
+        const header = section.querySelector("h1");
         if (header) {
-            const checkbox = document.createElement('button');
+            const checkbox = document.createElement("button");
             checkbox.className = `ml-4 inline-flex items-center justify-center w-8 h-8 rounded-full border-2 ${isCompleted ? 'bg-green-500 border-green-600 text-white' : 'bg-white border-gray-300 text-gray-400'}`;
             checkbox.innerHTML = isCompleted ? '✓' : '○';
             checkbox.title = isCompleted ? 'Mark as not completed' : 'Mark as completed';
-            checkbox.setAttribute('aria-label', 'Mark lesson completion');
+            checkbox.setAttribute("aria-label", "Mark lesson completion");
             
-            checkbox.addEventListener('click', function() {
+            checkbox.addEventListener("click", function() {
                 const nowCompleted = !progress[sectionId];
                 progress[sectionId] = nowCompleted;
                 localStorage.setItem(progressKey, JSON.stringify(progress));
@@ -175,7 +364,7 @@ function initProgressTracking() {
                 this.title = nowCompleted ? 'Mark as not completed' : 'Mark as completed';
                 
                 // Show feedback
-                showNotification(nowCompleted ? 'Lesson marked as completed!' : 'Lesson marked as not completed');
+                showNotification(nowCompleted ? "Lesson marked as completed!" : "Lesson marked as not completed");
             });
             
             header.appendChild(checkbox);
@@ -187,13 +376,13 @@ function initProgressTracking() {
     const completedLessons = Object.values(progress).filter(Boolean).length;
     
     if (totalLessons > 0) {
-        const progressElement = document.createElement('div');
-        progressElement.className = 'hidden md:block ml-4 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm';
+        const progressElement = document.createElement("div");
+        progressElement.className = "hidden md:block ml-4 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm";
         progressElement.innerHTML = `<strong>Progress:</strong> ${completedLessons}/${totalLessons} lessons`;
         
-        const nav = document.querySelector('nav ul');
+        const nav = document.querySelector("nav ul");
         if (nav) {
-            const li = document.createElement('li');
+            const li = document.createElement("li");
             li.appendChild(progressElement);
             nav.appendChild(li);
         }
@@ -202,31 +391,31 @@ function initProgressTracking() {
 
 // Theme toggle (light/dark mode)
 function initThemeToggle() {
-    const themeToggle = document.createElement('button');
-    themeToggle.className = 'ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
-    themeToggle.innerHTML = '🌓';
-    themeToggle.title = 'Toggle dark/light mode';
-    themeToggle.setAttribute('aria-label', 'Toggle theme');
+    const themeToggle = document.createElement("button");
+    themeToggle.className = "ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200";
+    themeToggle.innerHTML = "🌓";
+    themeToggle.title = "Toggle dark/light mode";
+    themeToggle.setAttribute("aria-label", "Toggle theme");
     
     // Check for saved theme or prefer-color-scheme
-    const savedTheme = localStorage.getItem('pcn-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem("pcn-theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.documentElement.classList.add('dark');
-        themeToggle.innerHTML = '☀️';
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+        themeToggle.innerHTML = "☀️";
     }
     
-    themeToggle.addEventListener('click', function() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('pcn-theme', isDark ? 'dark' : 'light');
-        this.innerHTML = isDark ? '☀️' : '🌓';
+    themeToggle.addEventListener("click", function() {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("pcn-theme", isDark ? "dark" : "light");
+        this.innerHTML = isDark ? "☀️" : "🌓";
     });
     
     // Add to navigation
-    const nav = document.querySelector('nav ul');
+    const nav = document.querySelector("nav ul");
     if (nav) {
-        const li = document.createElement('li');
+        const li = document.createElement("li");
         li.appendChild(themeToggle);
         nav.appendChild(li);
     }
@@ -235,26 +424,26 @@ function initThemeToggle() {
 // Helper function to show notifications
 function showNotification(message) {
     // Remove existing notification
-    const existing = document.getElementById('pcn-notification');
+    const existing = document.getElementById("pcn-notification");
     if (existing) existing.remove();
     
     // Create new notification
-    const notification = document.createElement('div');
-    notification.id = 'pcn-notification';
-    notification.className = 'fixed top-4 right-4 z-50 px-4 py-2 bg-green-500 text-white rounded-lg shadow-lg transform transition-transform duration-300';
+    const notification = document.createElement("div");
+    notification.id = "pcn-notification";
+    notification.className = "fixed top-4 right-4 z-50 px-4 py-2 bg-green-500 text-white rounded-lg shadow-lg transform transition-transform duration-300";
     notification.textContent = message;
     
     document.body.appendChild(notification);
     
     // Auto-remove after 3 seconds
     setTimeout(() => {
-        notification.classList.add('translate-x-full');
+        notification.classList.add("translate-x-full");
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
 
 // Add CSS for animations
-const style = document.createElement('style');
+const style = document.createElement("style");
 style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
@@ -304,3 +493,39 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Function to load header dynamically
+async function loadHeader() {
+    const headerPlaceholder = document.getElementById("header-placeholder");
+    if (headerPlaceholder) {
+        try {
+            const response = await fetch("header.html");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const headerHtml = await response.text();
+            headerPlaceholder.innerHTML = headerHtml;
+        } catch (error) {
+            console.error("Failed to load header:", error);
+            // Optionally, load static fallback content or show an error message
+        }
+    }
+}
+
+// Function to load footer dynamically
+async function loadFooter() {
+    const footerPlaceholder = document.getElementById("footer-placeholder");
+    if (footerPlaceholder) {
+        try {
+            const response = await fetch("footer.html");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const footerHtml = await response.text();
+            footerPlaceholder.innerHTML = footerHtml;
+        } catch (error) {
+            console.error("Failed to load footer:", error);
+            // Optionally, load static fallback content or show an error message
+        }
+    }
+}
