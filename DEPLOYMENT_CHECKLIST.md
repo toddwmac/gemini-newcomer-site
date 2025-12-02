@@ -2,7 +2,7 @@
 
 This checklist outlines the steps required to deploy your Next.js application as a static site to GitHub Pages. Since GitHub Pages primarily hosts static content, we'll configure Next.js to export a static HTML version of your application.
 
----
+-----
 
 ## 1. Prerequisites
 
