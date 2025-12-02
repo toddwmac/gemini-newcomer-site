@@ -19,7 +19,7 @@ The project uses Tailwind CSS for styling and builds to static HTML, CSS, and Ja
 ### **2.1. Build Scripts**
 
 The project includes npm scripts for building:
-- `npm run build:tailwind`: Compiles Tailwind CSS from `src/app/globals.css` to `styles/main.css`
+- `npm run build:tailwind`: Compiles Tailwind CSS from `src/app/globals.css` to `styles/main.css` using npx
 - `npm run build`: Runs the Tailwind build process
 - `npm run deploy`: Alias for the build command
 
@@ -33,7 +33,7 @@ The project includes npm scripts for building:
 
 ## 3. Local Build & Verification
 
-Before pushing to GitHub, ensure your project builds correctly as a static site locally.
+Before pushing to GitHub, ensure your project is built locally with all assets compiled.
 
 ### **3.1. Install Dependencies**
 
@@ -52,6 +52,8 @@ npm run build
 ### **3.3. Verify the Build Output**
 
 After a successful build, check that `styles/main.css` has been generated. The entire site consists of static HTML, CSS, and JavaScript files that can be served directly. You can test it locally by opening `index.html` in your browser or serving the root directory with a static server (e.g., `npx http-server .`).
+
+**Important:** The GitHub Actions workflow deploys the repository as-is, so ensure all build artifacts (like compiled CSS) are committed to the repository.
 
 ---
 
@@ -93,31 +95,20 @@ on:
       - main # Set a branch to deploy from (e.g., main, master, or gh-pages)
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20' # Use a recent Node.js version
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4 # Action for deploying to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ # Deploy the entire repository (static site)
-          # If your repository is user/org site (e.g., username.github.io), set the branch to master or gh-pages
-          # publish_branch: gh-pages
+          publish_dir: ./ # Deploy the entire repository (static HTML/CSS site)
+          # The cname parameter is optional. If you have a custom domain, specify it here.
+          # cname: example.com
 ```
 
 ### **5.2. Configure GitHub Pages in Repository Settings**
