@@ -1,33 +1,93 @@
 // PCN AI Mindset Toolbox - Interactive Features
 
+// Navigation Router - Simplified Architecture
+// Uses query parameters as primary method, hash as fallback for backward compatibility
+
+// Get lesson ID from URL (checks query param first, then hash)
+function getLessonFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lessonParam = urlParams.get('lesson');
+    
+    if (lessonParam) {
+        return lessonParam;
+    }
+    
+    // Fallback to hash for backward compatibility
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+        return hash.substring(1);
+    }
+    
+    return null;
+}
+
+// Central navigation function - handles all lesson navigation
+function navigateToLesson(lessonId) {
+    // Validate lesson ID pattern
+    if (!lessonId || (!lessonId.startsWith("ai-foundations-") && 
+                      !lessonId.startsWith("hobbies-") && 
+                      !lessonId.startsWith("practical-"))) {
+        console.warn("Invalid lesson ID:", lessonId);
+        return;
+    }
+    
+    // Update URL with query parameter (remove hash if present)
+    const baseUrl = window.location.pathname;
+    const newUrl = baseUrl + '?lesson=' + encodeURIComponent(lessonId);
+    
+    // Update history without page reload
+    history.pushState({ lesson: lessonId }, '', newUrl);
+    
+    // Load the lesson content
+    loadLessonContent(lessonId);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("PCN AI Mindset Toolbox loaded");
     loadHeader();
     loadFooter();
     
-    // Initial load of default content or a specific lesson
-    // loadLessonContent("ai-foundations-section"); // Load the "AI Foundations" section initially
-
-    // 1. AI Conversation Simulation (will be initialized after lesson content loads)
+    // Initialize interactive features
     initAIConversation();
-    
-    // 2. Smooth scrolling for anchor links (modified to load content)
-    initSmoothScrolling();
-    
-    // 3. Interactive lesson cards (will be initialized after lesson content loads)
+    initNavigation();
     initInteractiveCards();
-    
-    // 4. Progress tracking (local storage) (will be initialized after lesson content loads)
     initProgressTracking();
-    
-    // 5. Theme toggle (light/dark mode)
     initThemeToggle();
+    
+    // Handle initial page load - check for lesson in URL
+    const lessonId = getLessonFromURL();
+    if (lessonId) {
+        // If hash was used, convert to query parameter
+        if (window.location.hash && !window.location.search.includes('lesson=')) {
+            navigateToLesson(lessonId);
+        } else {
+            // Already using query parameter, just load the content
+            loadLessonContent(lessonId);
+        }
+    }
+    
+    // Handle back/forward browser buttons
+    window.addEventListener("popstate", function(e) {
+        const lessonId = getLessonFromURL();
+        if (lessonId) {
+            loadLessonContent(lessonId);
+        } else {
+            // No lesson in URL, clear content
+            const container = document.getElementById("lesson-content-container");
+            if (container) {
+                container.innerHTML = "";
+            }
+        }
+    });
 });
 
 // Function to load lesson content dynamically
 async function loadLessonContent(lessonId) {
+    console.log("loadLessonContent called with lessonId:", lessonId);
     const lessonContentContainer = document.getElementById("lesson-content-container");
-    if (!lessonContentContainer) return;
+    if (!lessonContentContainer) {
+        console.error("lesson-content-container not found!");
+        return;
+    }
 
     // Clear existing content
     lessonContentContainer.innerHTML = "Loading lesson...";
@@ -54,13 +114,19 @@ async function loadLessonContent(lessonId) {
     };
 
     const lessonPath = `lessons/${lessonFileMap[lessonId] || '404.html'}`;
+    console.log("Loading lesson from path:", lessonPath);
 
+    // Check if running on file:// protocol (CORS issue)
+    const isFileProtocol = window.location.protocol === 'file:';
+    
     try {
+        console.log("Fetching lesson content...");
         const response = await fetch(lessonPath);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const lessonHtml = await response.text();
+        console.log("Lesson content loaded successfully, length:", lessonHtml.length);
         lessonContentContainer.innerHTML = lessonHtml;
 
         // Re-initialize interactive elements for the newly loaded content
@@ -73,7 +139,40 @@ async function loadLessonContent(lessonId) {
 
     } catch (error) {
         console.error(`Failed to load lesson content for ${lessonId}:`, error);
-        lessonContentContainer.innerHTML = `<p class="text-red-600">Error loading lesson. Please try again.</p>`;
+        console.error(`Attempted path: ${lessonPath}`);
+        console.error(`Protocol: ${window.location.protocol}`);
+        
+        // Provide helpful error message based on the error type
+        let errorMessage = '';
+        let errorDetails = '';
+        
+        if (isFileProtocol) {
+            errorMessage = 'Cannot load lessons when opening file directly';
+            errorDetails = `
+                <p class="text-sm mt-2">This site needs to be served through a web server due to browser security restrictions.</p>
+                <p class="text-sm mt-2 font-semibold">To fix this:</p>
+                <ol class="text-sm mt-2 list-decimal list-inside space-y-1 ml-4">
+                    <li>Open PowerShell in this project directory</li>
+                    <li>Run: <code class="bg-gray-100 px-1 py-0.5 rounded">npm run dev</code></li>
+                    <li>Open the URL shown in your browser (usually http://localhost:8080)</li>
+                </ol>
+                <p class="text-sm mt-2">Or use Python: <code class="bg-gray-100 px-1 py-0.5 rounded">python -m http.server 8080</code></p>
+            `;
+        } else if (error.message.includes('404') || error.message.includes('Failed to fetch')) {
+            errorMessage = `Lesson file not found: ${lessonPath}`;
+            errorDetails = `<p class="text-sm mt-2">The lesson file "${lessonFileMap[lessonId] || 'unknown'}" may be missing from the lessons folder.</p>`;
+        } else {
+            errorMessage = `Error loading lesson: ${lessonId}`;
+            errorDetails = `<p class="text-sm mt-2">Error details: ${error.message}</p>`;
+        }
+        
+        lessonContentContainer.innerHTML = `
+            <div class="p-6 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-red-600 font-semibold">${errorMessage}</p>
+                ${errorDetails}
+                <p class="text-sm mt-4 text-gray-600">Check the browser console (F12) for more details.</p>
+            </div>
+        `;
     }
 }
 
@@ -144,48 +243,71 @@ function initAIConversation() {
     });
 }
 
-// Smooth scrolling for anchor links (now also loads content)
-function initSmoothScrolling() {
-    document.querySelectorAll("a[href^=\"#\"]").forEach(anchor => {
-        anchor.addEventListener("click", function(e) {
-            const href = this.getAttribute("href");
-            
-            if (href === "#") return;
+// Simple navigation handler - converts hash links to query parameter navigation
+function initNavigation() {
+    // Single event delegation listener for all anchor link clicks
+    document.addEventListener("click", function(e) {
+        const anchor = e.target.closest("a");
+        if (!anchor) return;
+        
+        const href = anchor.getAttribute("href");
+        if (!href) return;
+        
+        // Handle hash links (convert to query parameter navigation)
+        if (href.startsWith("#")) {
+            if (href === "#") {
+                e.preventDefault();
+                return;
+            }
             
             const targetId = href.substring(1);
-
-            // If the target is a section that should be loaded dynamically
+            
+            // Check if it's a lesson link
             if (targetId.startsWith("ai-foundations-") || targetId.startsWith("hobbies-") || targetId.startsWith("practical-")) {
                 e.preventDefault();
-                loadLessonContent(targetId);
-            } else { // Old behavior for internal anchors within dynamically loaded content
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    e.preventDefault();
-                    targetElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                    // Update URL without page jump
-                    history.pushState(null, null, href);
-                }
+                navigateToLesson(targetId);
+                return;
             }
-        });
+            
+            // Handle internal anchors (scroll to element)
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                targetElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+                // Update URL with hash for internal anchors
+                history.pushState(null, null, href);
+                return;
+            }
+        }
+        
+        // Handle root link (/) - clear lesson content and scroll to top
+        if (href === "/" || href === window.location.pathname) {
+            e.preventDefault();
+            const lessonContentContainer = document.getElementById("lesson-content-container");
+            if (lessonContentContainer) {
+                lessonContentContainer.innerHTML = "";
+            }
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            history.pushState(null, null, "/");
+        }
+        
+        // Add visual feedback for card-style links
+        if (anchor.classList.contains("block") || anchor.closest(".grid")) {
+            anchor.classList.add("bg-indigo-100", "border-indigo-300");
+            setTimeout(() => {
+                anchor.classList.remove("bg-indigo-100", "border-indigo-300");
+            }, 300);
+        }
     });
 }
 
 // Interactive lesson cards with hover effects
 function initInteractiveCards() {
-    // Add click handlers to lesson cards (now handled by initSmoothScrolling for main sections)
-    document.querySelectorAll(".grid > a").forEach(card => {
-        card.addEventListener("click", function() {
-            // Add visual feedback
-            this.classList.add("bg-indigo-100", "border-indigo-300");
-            setTimeout(() => {
-                this.classList.remove("bg-indigo-100", "border-indigo-300");
-            }, 300);
-        });
-    });
+    // Note: Click handlers for links are now handled by initNavigation via event delegation
+    // This function only handles visual effects that don't interfere with navigation
     
     // Add subtle animation to section headers
     const observerOptions = {
