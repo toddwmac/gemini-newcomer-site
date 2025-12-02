@@ -42,9 +42,9 @@ A comprehensive, frontend-only training system designed for accessibility to a 5
 
 ## 4. Recommended Technical Stack
 
--   **Frontend:** **React / Next.js** with **TypeScript**. This provides a modern, fast, and maintainable user interface.
+-   **Frontend:** **HTML, CSS, TypeScript**. Static site architecture for simplicity and performance.
 -   **Styling:** **Tailwind CSS**.
--   **Deployment:** **Vercel** (for Next.js frontend).
+-   **Deployment:** **GitHub Pages** (for static hosting).
 -   *Note: Backend components (e.g., Python FastAPI, Node.js, PostgreSQL, Stripe) are deferred for future development when member management or persistent data are required.*
 
 ## 5. UI/UX Design Principles

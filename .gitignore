@@ -8,10 +8,6 @@
 # TypeScript
 *.tsbuildinfo
 
-# Next.js
-/.next/
-/out/
-
 # Production
 /build
 

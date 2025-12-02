@@ -1,8 +1,8 @@
 # Deployment Checklist: PCN AI Mindset Toolbox to GitHub Pages
 
-This checklist outlines the steps required to deploy your Next.js application as a static site to GitHub Pages. Since GitHub Pages primarily hosts static content, we'll configure Next.js to export a static HTML version of your application.
+This checklist outlines the steps required to deploy your static HTML/CSS/TypeScript application to GitHub Pages.
 
------
+-----                                                                                                                           
 
 ## 1. Prerequisites
 
@@ -12,28 +12,22 @@ This checklist outlines the steps required to deploy your Next.js application as
 
 ---
 
-## 2. Project Configuration for Static Export
+## 2. Project Build Process
 
-Next.js needs to be configured to output a static site.
+The project uses Tailwind CSS for styling and builds to static HTML, CSS, and JavaScript files.
 
-### **2.1. Modify `next.config.mjs`**
+### **2.1. Build Scripts**
 
-Open `next.config.mjs` and add or modify the `output` property to `'export'`.
-If your site will be hosted at a subpath (e.g., `https://<username>.github.io/<repo-name>/`), you *must* also set the `basePath`.
+The project includes npm scripts for building:
+- `npm run build:tailwind`: Compiles Tailwind CSS from `src/app/globals.css` to `styles/main.css`
+- `npm run build`: Runs the Tailwind build process
+- `npm run deploy`: Alias for the build command
 
-```javascript
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export', // Enables static HTML export
+### **2.2. File Structure**
 
-  // Optional: Set basePath if deploying to a GitHub Pages project site (e.g., your-username.github.io/your-repo-name)
-  // If your site is at the root (e.g., your-username.github.io), you can omit this.
-  // basePath: '/<YOUR_REPOSITORY_NAME>', // e.g., '/gemini-newcomer-site'
-};
-
-export default nextConfig;
-```
-**Important:** If you set `basePath`, remember to include it in all internal links (`<Link href="/<basePath>/your-page">`) or ensure your `Link` components handle it automatically (which Next.js usually does for `basePath`).
+- **Source files:** HTML files in root, TypeScript in `scripts/`, CSS in `src/app/`
+- **Build output:** `styles/main.css` (compiled CSS)
+- **Static assets:** All files are served directly without compilation
 
 ---
 
@@ -49,15 +43,15 @@ npm install
 
 ### **3.2. Run the Build Command**
 
-This command will create an `out/` directory containing your static HTML, CSS, and JavaScript files.
+This command will compile your Tailwind CSS.
 
 ```bash
 npm run build
 ```
 
-### **3.3. Verify the `out` Directory**
+### **3.3. Verify the Build Output**
 
-After a successful build, a new folder named `out` will appear in your project root. This folder contains the entire static version of your application. You can test it locally by serving it with a simple static server (e.g., `npx http-server out`).
+After a successful build, check that `styles/main.css` has been generated. The entire site consists of static HTML, CSS, and JavaScript files that can be served directly. You can test it locally by opening `index.html` in your browser or serving the root directory with a static server (e.g., `npx http-server .`).
 
 ---
 
@@ -84,7 +78,7 @@ git push -u origin main
 
 ## 5. GitHub Pages Deployment (via GitHub Actions - Recommended)
 
-Automating deployment with GitHub Actions is the most reliable way to host Next.js static exports on GitHub Pages.
+Automating deployment with GitHub Actions is the most reliable way to host static sites on GitHub Pages.
 
 ### **5.1. Create GitHub Actions Workflow File**
 
@@ -103,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -121,9 +115,9 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4 # Action for deploying to gh-pages
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out # Directory containing the static build output
+          publish_dir: ./ # Deploy the entire repository (static site)
           # If your repository is user/org site (e.g., username.github.io), set the branch to master or gh-pages
-          # publish_branch: gh-pages 
+          # publish_branch: gh-pages
 ```
 
 ### **5.2. Configure GitHub Pages in Repository Settings**
@@ -142,8 +136,8 @@ jobs:
     *   For project sites (e.g., `https://<username>.github.io/<repo-name>/`), it might take a few minutes for the site to become live.
     *   For user/organization sites (e.g., `https://<username>.github.io/`), the site will be at the root.
 3.  **Test Functionality:** Navigate through all pages, check all links, and ensure the UI looks as expected. Pay special attention to:
-    *   Image loading (if you use Next.js `Image` component).
-    *   Navigation links.
+    *   CSS loading (ensure `styles/main.css` is properly linked).
+    *   Navigation links and anchor scrolling.
     *   Any client-side JavaScript functionality (e.g., the simulated AI prompt on the `first-conversation` page).
 
 ---

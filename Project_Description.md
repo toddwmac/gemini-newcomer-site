@@ -16,22 +16,19 @@ The entire application content is presented as a single, scrollable page, with t
 
 ## Architecture
 
-The project is currently implemented as a **frontend-only** application, prioritizing content delivery and user education without requiring backend services for its core functionality.
+The project is currently implemented as a **frontend-only** static site, prioritizing content delivery and user education without requiring backend services for its core functionality.
 
-*   **Frontend Framework:** Next.js (React)
-*   **Language:** TypeScript
+*   **Technology Stack:** HTML, CSS, TypeScript
 *   **Styling:** Tailwind CSS
-*   **Routing:** Next.js App Router
+*   **Build System:** npm scripts with Tailwind CLI
 
 ## Technology Stack
 
 *   **Runtime:** Node.js (for development and build)
 *   **Package Manager:** npm
-*   **Development Framework:** Next.js
-*   **UI Library:** React
-*   **Language:** TypeScript
+*   **Language:** TypeScript, HTML, CSS
 *   **Styling:** Tailwind CSS
-*   **Linting:** ESLint (configured with `eslint-config-next`)
+*   **Build Tools:** Tailwind CLI, PostCSS
 
 ## Extension Points & Future Development
 
@@ -46,4 +43,4 @@ This project is designed for incremental expansion. Key areas for future develop
 
 ## Coding Conventions
 
-The project adheres to standard Next.js, React, and TypeScript best practices. Styling follows Tailwind CSS utility-first principles. The App Router convention is used for page and layout structure.
+The project adheres to standard web development best practices. TypeScript is used for enhanced type safety in JavaScript modules. Styling follows Tailwind CSS utility-first principles. HTML structure follows semantic web standards.

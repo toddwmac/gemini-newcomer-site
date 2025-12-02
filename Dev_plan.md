@@ -2,7 +2,7 @@
 
 ## 1. Project Setup & Core Structure (Completed)
 
-1.  **Initialize Project:** New Next.js application using TypeScript.
+1.  **Initialize Project:** Static HTML site with TypeScript support.
 2.  **Styling Framework:** Integrated Tailwind CSS for a modern, utility-first styling approach.
 3.  **Basic Layout:** Set up a responsive header (navigation bar) and footer.
 
