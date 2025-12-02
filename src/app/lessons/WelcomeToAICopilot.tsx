@@ -1,0 +1,46 @@
+// src/app/lessons/WelcomeToAICopilot.tsx
+import React from 'react';
+
+const WelcomeToAICopilot: React.FC = () => {
+  return (
+    <section id="ai-foundations-welcome" className="mb-16 pt-16 -mt-16">
+      <div className="flex justify-center mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 text-indigo-600">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423L17.25 15l.394 1.183a2.25 2.25 0 001.423 1.423L19.5 18.75l-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+        </svg>
+      </div>
+      <h1 className="text-4xl font-bold mb-4 text-gray-900">Welcome to Your AI Copilot</h1>
+      <p className="text-lg text-gray-600 mb-6">Lesson 1 of "AI Foundations"</p>
+
+      <div className="prose lg:prose-xl">
+        <p>
+          You’ve probably been hearing a lot about “AI” (Artificial Intelligence) lately. It might sound complicated or futuristic, like something out of a science fiction movie. But what if we told you that AI is something you can start using today, right here in Park City, to make your life easier, more creative, and more fun?
+        </p>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">So, What is an "AI Mindset"?</h2>
+        <p>
+          Simply put, developing an "AI Mindset" isn't about becoming a programmer or a tech expert.
+        </p>
+        <blockquote className="border-l-4 border-indigo-500 pl-4 italic text-gray-800">
+          It’s about learning to think of AI as a helpful, creative partner—a copilot—that you can talk to.
+        </blockquote>
+        <p>
+          Imagine having a personal assistant who is an expert in almost everything. You could ask it to help you plan a hike, come up with a new recipe for dinner, or even help you write a poem about the beauty of the Wasatch mountains. That's the AI Mindset in action: knowing what you can ask for and how to ask for it.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">What It's Not</h2>
+        <ul className="list-disc pl-6 space-y-2">
+          <li><strong>It's not about memorizing facts.</strong> AI is your new expert for that.</li>
+          <li><strong>It's not about being "tech-savvy."</strong> If you can send an email, you can use AI.</li>
+          <li><strong>It's not a replacement for human connection.</strong> It's a tool to give you more time and ideas, so you can connect with others even more.</li>
+        </ul>
+
+        <p>
+          In this series, we'll show you how to get started, step-by-step. You'll be surprised at how easy and enjoyable it can be.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+export default WelcomeToAICopilot;

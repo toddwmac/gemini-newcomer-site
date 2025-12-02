@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Page Not Found</title>
+  <script type="text/javascript">
+    // Single Page Apps often need to redirect to index.html on 404s to allow client-side routing to work.
+    // This script does that, by redirecting to the basePath if it exists, otherwise to the root.
+    var path = window.location.pathname;
+    var basePath = '/gemini-newcomer-site/'; // Ensure this matches your next.config.mjs basePath
+
+    // Check if the path already starts with the basePath
+    if (path.startsWith(basePath)) {
+      window.location.replace(basePath + 'index.html');
+    } else {
+      // If not, redirect to the basePath + index.html
+      window.location.replace(basePath + 'index.html');
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
