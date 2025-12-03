@@ -2,7 +2,8 @@
 module.exports = {
   content: [
     './*.html', // Scan root HTML files
-    './public/*.html', // Scan public HTML files
+    './scripts/**/*.js', // Scan scripts for dynamically added classes
+    './lessons/**/*.html', // Scan all lesson files for classes
   ],
   theme: {
     extend: {},

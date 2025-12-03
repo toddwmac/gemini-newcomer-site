@@ -174,6 +174,110 @@ const LESSON_METADATA = {
 };
 
 // ========================================
+// SIDEBAR NAVIGATION
+// ========================================
+
+function buildSidebar() {
+    const sidebarContainer = document.getElementById('sidebar-container');
+    if (!sidebarContainer) return;
+
+    // Group lessons by part
+    const lessonsByPart = {};
+    for (const lessonId in LESSON_METADATA) {
+        const lesson = LESSON_METADATA[lessonId];
+        if (lesson.part) {
+            if (!lessonsByPart[lesson.part]) {
+                lessonsByPart[lesson.part] = [];
+            }
+            lessonsByPart[lesson.part].push({ id: lessonId, ...lesson });
+        }
+    }
+
+    let sidebarHtml = `
+        <a href="/" class="block text-2xl font-bold mb-6 hover:text-indigo-600">PCN AI Toolbox</a>
+    `;
+
+    for (const partId in lessonsByPart) {
+        const partName = PART_METADATA[partId].name;
+        const lessons = lessonsByPart[partId].sort((a, b) => a.order - b.order);
+
+        sidebarHtml += `
+            <div class="mb-4">
+                <button class="w-full text-left font-semibold text-lg flex justify-between items-center collapsible">
+                    <span>${partName}</span>
+                    <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="mt-2 pl-4 space-y-2 collapsible-content" style="display: none;">
+        `;
+
+        lessons.forEach(lesson => {
+            sidebarHtml += `
+                <a href="?lesson=${lesson.id}" data-lesson-id="${lesson.id}" class="block p-2 rounded-md hover:bg-gray-200">${lesson.title}</a>
+            `;
+        });
+
+        sidebarHtml += `
+                </div>
+            </div>
+        `;
+    }
+
+    sidebarContainer.innerHTML = sidebarHtml;
+
+    // Add event listeners for collapsible sections
+    sidebarContainer.querySelectorAll('.collapsible').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('svg');
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                icon.classList.remove('rotate-180');
+            } else {
+                content.style.display = 'block';
+                icon.classList.add('rotate-180');
+            }
+        });
+    });
+}
+
+function updateSidebarActiveState(lessonId) {
+    const sidebarContainer = document.getElementById('sidebar-container');
+    if (!sidebarContainer) return;
+
+    // Remove active state from all links
+    sidebarContainer.querySelectorAll('a').forEach(link => {
+        link.classList.remove('bg-indigo-500', 'text-white', 'font-bold');
+    });
+
+    if (!lessonId) return;
+
+    const activeLink = sidebarContainer.querySelector(`a[data-lesson-id="${lessonId}"]`);
+    if (activeLink) {
+        activeLink.classList.add('bg-indigo-500', 'text-white', 'font-bold');
+
+        // Ensure parent collapsible is open
+        const collapsibleContent = activeLink.closest('.collapsible-content');
+        if (collapsibleContent && collapsibleContent.style.display !== 'block') {
+            collapsibleContent.style.display = 'block';
+            const button = collapsibleContent.previousElementSibling;
+            const icon = button.querySelector('svg');
+            icon.classList.add('rotate-180');
+        }
+    }
+}
+
+function initSidebar() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebarContainer = document.getElementById('sidebar-container');
+
+    if (menuToggle && sidebarContainer) {
+        menuToggle.addEventListener('click', () => {
+            sidebarContainer.classList.toggle('-translate-x-full');
+        });
+    }
+}
+
+// ========================================
 // NAVIGATION RENDERING FUNCTIONS
 // ========================================
 
@@ -330,7 +434,8 @@ function getLessonFromURL() {
 // Central navigation function - handles all lesson navigation
 function navigateToLesson(lessonId) {
     // Validate lesson ID pattern
-    if (!lessonId || (!lessonId.startsWith("ai-foundations-") && 
+    if (!lessonId || (lessonId !== 'home' &&
+                      !lessonId.startsWith("ai-foundations-") && 
                       !lessonId.startsWith("hobbies-") && 
                       !lessonId.startsWith("practical-"))) {
         console.warn("Invalid lesson ID:", lessonId);
@@ -346,11 +451,14 @@ function navigateToLesson(lessonId) {
     
     // Load the lesson content
     loadLessonContent(lessonId);
+    updateSidebarActiveState(lessonId);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     loadHeader();
     loadFooter();
+    buildSidebar();
+    initSidebar();
 
     // Initialize interactive features
     initAIConversation();
@@ -370,6 +478,10 @@ document.addEventListener("DOMContentLoaded", function() {
             // Already using query parameter, just load the content
             loadLessonContent(lessonId);
         }
+    } else {
+        // No lesson in URL, load the home page by default
+        loadLessonContent('home');
+        updateSidebarActiveState(null);
     }
     
     // Handle back/forward browser buttons
@@ -378,6 +490,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (lessonId) {
             loadLessonContent(lessonId);
             updateHeaderActiveState(lessonId);
+            updateSidebarActiveState(lessonId);
         } else {
             // No lesson in URL, clear content
             const container = document.getElementById("lesson-content-container");
@@ -385,6 +498,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 container.innerHTML = "";
             }
             updateHeaderActiveState(null);
+            updateSidebarActiveState(null);
         }
     });
 });
@@ -403,6 +517,7 @@ async function loadLessonContent(lessonId) {
 
     // Map lesson IDs to their respective HTML files
     const lessonFileMap = {
+        "home": "home.html",
         "ai-foundations-section": "ai-foundations-overview.html", // A new overview file for the section
         "ai-foundations-welcome": "ai-foundations-welcome.html",
         "ai-foundations-beyond-search": "ai-foundations-beyond-search.html",
@@ -458,6 +573,7 @@ async function loadLessonContent(lessonId) {
 
         // Update header active state
         updateHeaderActiveState(lessonId);
+        updateSidebarActiveState(lessonId);
 
         // Re-initialize interactive elements for the newly loaded content
         initAIConversation(); // Only if the loaded content contains the AI conversation elements
@@ -588,6 +704,14 @@ function initNavigation() {
         const href = anchor.getAttribute("href");
         if (!href) return;
         
+        // Handle query param links for lessons
+        if (href.startsWith("?lesson=")) {
+            e.preventDefault();
+            const lessonId = new URLSearchParams(href).get('lesson');
+            navigateToLesson(lessonId);
+            return;
+        }
+        
         // Handle hash links (convert to query parameter navigation)
         if (href.startsWith("#")) {
             if (href === "#") {
@@ -618,15 +742,10 @@ function initNavigation() {
             }
         }
         
-        // Handle root link (/) - clear lesson content and scroll to top
+        // Handle root link (/) - navigate to home
         if (href === "/" || href === window.location.pathname) {
             e.preventDefault();
-            const lessonContentContainer = document.getElementById("lesson-content-container");
-            if (lessonContentContainer) {
-                lessonContentContainer.innerHTML = "";
-            }
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            history.pushState(null, null, "/");
+            navigateToLesson('home');
         }
         
         // Add visual feedback for card-style links
