@@ -63,4 +63,73 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Lesson Navigation Logic
+  const lessonOrder = [
+    'ai-foundations-welcome',
+    'ai-foundations-beyond-search',
+    'ai-foundations-first-conversation',
+    'ai-foundations-prompting',
+    'hobbies-hiker',
+    'hobbies-book-club',
+    'hobbies-gardener',
+    'hobbies-writer',
+    'hobbies-artist',
+    'hobbies-social-planner',
+    'practical-kitchen',
+    'practical-travel',
+    'practical-connected',
+    'practical-productivity'
+  ];
+
+  function updateLessonNavigation() {
+    const currentSectionId = window.location.hash.substring(1) || '';
+    const currentIndex = lessonOrder.indexOf(currentSectionId);
+    const prevLessonLink = document.querySelector('#prev-lesson');
+    const nextLessonLink = document.querySelector('#next-lesson');
+    const lessonProgress = document.querySelector('#lesson-progress');
+
+    if (currentIndex !== -1) {
+      if (currentIndex > 0) {
+        prevLessonLink.href = '#' + lessonOrder[currentIndex - 1];
+        prevLessonLink.classList.remove('disabled');
+      } else {
+        prevLessonLink.href = '#';
+        prevLessonLink.classList.add('disabled');
+      }
+
+      if (currentIndex < lessonOrder.length - 1) {
+        nextLessonLink.href = '#' + lessonOrder[currentIndex + 1];
+        nextLessonLink.classList.remove('disabled');
+      } else {
+        nextLessonLink.href = '#';
+        nextLessonLink.classList.add('disabled');
+      }
+
+      if (lessonProgress) {
+        lessonProgress.textContent = `Lesson Progress: ${currentIndex + 1} of ${lessonOrder.length}`;
+      }
+    }
+  }
+
+  window.addEventListener('hashchange', updateLessonNavigation);
+  updateLessonNavigation();
+
+  // Function to navigate to previous or next lesson
+  window.navigateToLesson = function(direction) {
+    const currentSectionId = window.location.hash.substring(1) || '';
+    const currentIndex = lessonOrder.indexOf(currentSectionId);
+    if (currentIndex === -1) return;
+
+    let newIndex;
+    if (direction === 'prev' && currentIndex > 0) {
+      newIndex = currentIndex - 1;
+    } else if (direction === 'next' && currentIndex < lessonOrder.length - 1) {
+      newIndex = currentIndex + 1;
+    }
+
+    if (newIndex !== undefined) {
+      window.location.hash = '#' + lessonOrder[newIndex];
+    }
+  };
 });

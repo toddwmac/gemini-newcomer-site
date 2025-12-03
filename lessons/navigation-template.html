@@ -1,0 +1,28 @@
+<!-- Lesson Navigation -->
+<div class="lesson-navigation mb-6 mt-2 border-b border-gray-200 pb-4">
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+    <a href="/" class="text-indigo-600 hover:text-indigo-800 font-medium inline-flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Back to Course Overview
+    </a>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <a href="#" id="prev-lesson" class="text-gray-600 hover:text-gray-800 font-medium inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed" onclick="navigateToLesson('prev')">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Previous Lesson
+      </a>
+      <a href="#" id="next-lesson" class="text-gray-600 hover:text-gray-800 font-medium inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed" onclick="navigateToLesson('next')">
+        Next Lesson
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="mt-4 text-sm text-gray-500">
+    <span id="lesson-progress">Lesson Progress: </span>
+  </div>
+</div>
