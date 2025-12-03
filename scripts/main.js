@@ -177,39 +177,11 @@ const LESSON_METADATA = {
 // NAVIGATION RENDERING FUNCTIONS
 // ========================================
 
-// Render breadcrumb navigation
-function renderBreadcrumbs(lessonId) {
-    const metadata = LESSON_METADATA[lessonId];
-    if (!metadata) return '';
-
-    if (metadata.isOverview) {
-        // For overview pages, just show Home > Part
-        return `
-            <nav aria-label="Breadcrumb" class="mb-6 text-sm text-gray-600 flex items-center gap-2">
-                <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-                <span class="text-gray-800">${metadata.title.replace(' Overview', '')}</span>
-            </nav>
-        `;
-    } else {
-        // For lesson pages, show Home > Part > Lesson
-        const partInfo = PART_METADATA[metadata.part];
-        return `
-            <nav aria-label="Breadcrumb" class="mb-6 text-sm text-gray-600 flex items-center gap-2 flex-wrap">
-                <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
-                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-                <a href="#${partInfo.overviewId}" class="hover:text-indigo-600 transition-colors">${metadata.partName}</a>
-                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-                <span class="text-gray-800">${metadata.title}</span>
-            </nav>
-        `;
-    }
+// Render breadcrumb navigation (minimal, only for page headers)
+function renderBreadcrumbs() {
+    // Breadcrumbs are now handled minimally - only shown in header
+    // Not added to lesson content to avoid clutter
+    return '';
 }
 
 // Update active state in header navigation
@@ -243,94 +215,36 @@ function updateHeaderActiveState(lessonId) {
     }
 }
 
-// Render previous/next navigation
+// Render previous/next navigation - minimal footer links only
 function renderPrevNextNav(lessonId) {
     const metadata = LESSON_METADATA[lessonId];
     if (!metadata) return '';
 
-    if (metadata.isOverview) {
-        // For overview pages, show "Start first lesson" button
-        const partInfo = Object.values(PART_METADATA).find(p => p.overviewId === lessonId);
-        if (partInfo) {
-            const firstLessonId = Object.keys(LESSON_METADATA).find(id =>
-                LESSON_METADATA[id].part === Object.keys(PART_METADATA).find(pk => PART_METADATA[pk].overviewId === lessonId) &&
-                LESSON_METADATA[id].order === 1
-            );
-            if (firstLessonId) {
-                return `
-                    <div class="mt-10 pt-6 border-t border-gray-200 flex justify-end">
-                        <a href="?lesson=${firstLessonId}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
-                            Start First Lesson
-                            <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
-                    </div>
-                `;
-            }
-        }
-        return '';
-    }
+    // Only show for actual lessons, not overview pages
+    if (metadata.isOverview) return '';
 
     const prevMetadata = metadata.prevLesson ? LESSON_METADATA[metadata.prevLesson] : null;
     const nextMetadata = metadata.nextLesson ? LESSON_METADATA[metadata.nextLesson] : null;
 
     if (!prevMetadata && !nextMetadata) return '';
 
-    let navHTML = `
-        <div class="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between text-sm">
-    `;
-
-    if (prevMetadata) {
-        navHTML += `
-            <a href="?lesson=${metadata.prevLesson}" class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors group">
-                <svg class="w-4 h-4 mr-1.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                <span class="font-medium">${prevMetadata.title}</span>
-            </a>
-        `;
-    } else {
-        navHTML += `<span></span>`;
-    }
-
-    if (nextMetadata) {
-        navHTML += `
-            <a href="?lesson=${metadata.nextLesson}" class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors group">
-                <span class="font-medium">${nextMetadata.title}</span>
-                <svg class="w-4 h-4 ml-1.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </a>
-        `;
-    }
-
-    navHTML += `
-        </div>
-    `;
-
-    return navHTML;
-}
-
-// Render lesson metadata (position in series)
-function renderLessonMetadata(lessonId) {
-    const metadata = LESSON_METADATA[lessonId];
-    if (!metadata || metadata.isOverview) return '';
-
-    const partInfo = PART_METADATA[metadata.part];
-
     return `
-        <div class="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+        <div class="mt-12 pt-6 border-t border-gray-200 flex justify-between text-xs text-gray-500">
             <div>
-                <p class="text-sm text-indigo-600 font-medium">
-                    ${metadata.partName}
-                </p>
-                <p class="text-xs text-gray-500 mt-1">
-                    Lesson ${metadata.order} of ${partInfo.totalLessons}
-                </p>
+                ${prevMetadata ? `<a href="?lesson=${metadata.prevLesson}" class="text-indigo-600 hover:text-indigo-700 font-medium">← ${prevMetadata.title}</a>` : ''}
+            </div>
+            <div>
+                ${nextMetadata ? `<a href="?lesson=${metadata.nextLesson}" class="text-indigo-600 hover:text-indigo-700 font-medium">${nextMetadata.title} →</a>` : ''}
             </div>
         </div>
     `;
+}
+
+// Render lesson metadata (position in series)
+function renderLessonMetadata() {
+    // Lesson metadata already provided in lesson HTML
+    // Removing duplicate display to avoid clutter
+    return '';
 }
 
 // Enhance overview cards with progress badges

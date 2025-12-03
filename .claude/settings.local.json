@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nSimplify navigation to minimal, elegant footer-only design\n\nRemoved cluttered top navigation elements:\n- Removed breadcrumb navigation display (was adding visual clutter)\n- Removed duplicate lesson metadata (lesson HTML already has context)\n- Header active state indicator remains for section tracking\n\nNew minimal prev/next navigation:\n- Appears only at bottom of lessons as small footer links\n- Previous lesson: ← Lesson Title (left side)\n- Next lesson: Lesson Title → (right side)\n- Respects edge cases (no link for first/last lessons)\n- Uses subtle styling (text-xs, text-gray-500, indigo-600 on hover)\n\nBenefits:\n✅ Clean, unobtrusive design\n✅ Doesn''t interfere with lesson content\n✅ Maintains all navigation functionality\n✅ Professional, minimal aesthetic\n✅ Focus stays on actual learning content\n\nKeyboard navigation (arrow keys) still works for power users.\n\n🤖 Generated with Claude Code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
