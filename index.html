@@ -5,36 +5,774 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCN AI Mindset Toolbox</title>
     <link href="styles/main.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
-    <div class="flex">
-        <!-- Sidebar -->
-        <div id="sidebar-container" class="fixed z-30 inset-y-0 left-0 w-64 bg-gray-100 p-4 overflow-y-auto transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out">
-            <!-- Sidebar content will be injected here -->
+<body class="bg-gray-100 text-gray-800">
+<header class="bg-gray-800 text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="text-lg font-bold">
+      <a href="/">PCN AI Mindset Toolbox</a>
+    </div>
+    <nav>
+      <ul class="flex space-x-4">
+        <li>
+          <a href="#ai-foundations-section" class="hover:text-gray-300">AI Foundations</a>
+        </li>
+        <li>
+          <a href="#hobbies-section" class="hover:text-gray-300">Hobbies</a>
+        </li>
+        <li>
+          <a href="#practical-life-section" class="hover:text-gray-300">Life Enhancement</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="container mx-auto p-4">
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-indigo-50 to-blue-50 py-12 md:py-20">
+    <div class="container mx-auto px-8 text-center">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">PCN AI Mindset Toolbox</h1>
+        <p class="mt-4 text-xl text-gray-600 md:text-2xl">A friendly guide for Park City Newcomers to a powerful new tool.</p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#ai-foundations-welcome" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                Start Learning AI Foundations
+            </a>
+            <a href="#ai-foundations-first-conversation" class="inline-flex items-center justify-center px-6 py-3 border border-indigo-600 text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
+                Try AI Conversation Simulator
+            </a>
         </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-h-screen">
-            <!-- Mobile Header with Menu Button -->
-            <div class="md:hidden flex justify-between items-center bg-gray-800 text-white p-4">
-                <button id="menu-toggle" class="focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-                <h1 class="text-lg font-bold">PCN AI Toolbox</h1>
-            </div>
-
-            <div id="header-placeholder"></div>
-
-            <main class="flex-grow p-4 md:p-8">
-                <div id="lesson-content-container">
-                    <!-- Lesson content will be loaded here -->
-                </div>
-            </main>
-
-            <div id="footer-placeholder"></div>
+        <div class="mt-8 text-sm text-gray-500">
+            <p>Designed specifically for Park City Newcomers Club members aged 50+</p>
         </div>
     </div>
+</div>
 
-    <script src="scripts/main.js"></script>
+<!-- Table of Contents / Navigation -->
+<nav class="mt-16 mb-16">
+  <h2 class="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">Explore the Toolbox</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <a href="#ai-foundations-section" class="block p-6 bg-indigo-50 border border-indigo-200 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center">
+      <h3 class="text-xl font-semibold text-indigo-700">Part 1: AI Foundations</h3>
+      <p class="mt-2 text-indigo-600">Start your AI journey here!</p>
+    </a>
+    <a href="#hobbies-section" class="block p-6 bg-indigo-50 border border-indigo-200 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center">
+      <h3 class="text-xl font-semibold text-indigo-700">Part 2: AI in Your Hobbies</h3>
+      <p class="mt-2 text-indigo-600">Enhance your favorite activities.</p>
+    </a>
+    <a href="#practical-life-section" class="block p-6 bg-indigo-50 border border-indigo-200 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center">
+      <h3 class="text-xl font-semibold text-indigo-700">Part 3: Practical Life Enhancement</h3>
+      <p class="mt-2 text-indigo-600">AI to simplify your daily life.</p>
+    </a>
+  </div>
+</nav>
+
+<div id='lessons'>
+    <section id='ai-foundations-section' class='mb-8'>
+        <h2 class="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">AI Foundations</h2>
+        <div class="mb-8">
+          <p class="text-lg text-gray-600">
+            Welcome to the foundational concepts of artificial intelligence! This section will help you understand what an "AI Mindset" is and how to start your first conversation with AI.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <a href="#ai-foundations-welcome" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">Welcome to Your AI Copilot</h3>
+            <p class="mt-2 text-gray-700">What is an "AI Mindset"? It's not about being a tech wizard; it's about learning to ask, explore, and create.</p>
+          </a>
+          <a href="#ai-foundations-beyond-search" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">Beyond a Search Engine</h3>
+            <p class="mt-2 text-gray-700">How to think of AI as a creative partner, not just a tool for finding answers.</p>
+          </a>
+          <a href="#ai-foundations-first-conversation" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">Your First Conversation with AI</h3>
+            <p class="mt-2 text-gray-700">A simple, step-by-step guide to asking your first question.</p>
+          </a>
+          <a href="#ai-foundations-prompting" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">The Gentle Art of Prompting</h3>
+            <p class="mt-2 text-gray-700">Learn to talk to AI in plain English to get exactly what you want.</p>
+          </a>
+        </div>
+    </section>
+    <section id='ai-foundations-welcome' class='mb-8'>
+        <div class="flex justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-indigo-600">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423L17.25 15l.394 1.183a2.25 2.25 0 001.423 1.423L19.5 18.75l-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+          </svg>
+        </div>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">Welcome to Your AI Copilot</h1>
+        <p class="text-lg text-gray-600 mb-6">Lesson 1 of "AI Foundations"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            You’ve probably been hearing a lot about “AI” (Artificial Intelligence) lately. It might sound complicated or futuristic, like something out of a science fiction movie. But what if we told you that AI is something you can start using today, right here in Park City, to make your life easier, more creative, and more fun?
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">So, What is an "AI Mindset"?</h2>
+          <p>
+            Simply put, developing an "AI Mindset" isn’t about becoming a programmer or a tech expert.
+          </p>
+          <blockquote class="border-l-4 border-indigo-500 pl-4 italic text-gray-800">
+            It’s about learning to think of AI as a helpful, creative partner—a copilot—that you can talk to.
+          </blockquote>
+          <p>
+            Imagine having a personal assistant who is an expert in almost everything. You could ask it to help you plan a hike, come up with a new recipe for dinner, or even help you write a poem about the beauty of the Wasatch mountains. That’s the AI Mindset in action: knowing what you can ask for and how to ask for it.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">What It’s Not</h2>
+          <ul class="list-disc pl-6 space-y-2">
+            <li><strong>It’s not about memorizing facts.</strong> AI is your new expert for that.</li>
+            <li><strong>It’s not about being “tech-savvy.”</strong> If you can send an email, you can use AI.</li>
+            <li><strong>It’s not a replacement for human connection.</strong> It’s a tool to give you more time and ideas, so you can connect with others even more.</li>
+          </ul>
+
+          <p>
+            In this series, we’ll show you how to get started, step-by-step. You’ll be surprised at how easy and enjoyable it can be.
+          </p>
+        </div>
+    </section>
+    <section id='ai-foundations-beyond-search' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">Beyond a Search Engine</h1>
+        <p class="text-lg text-gray-600 mb-6">Lesson 2 of "AI Foundations"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            For the last 20 years, we’ve all become experts at using search engines like Google. When you need to find a fact, a website, or a piece of information, you type in a few keywords and get a list of links. It’s like looking up a topic in the index of a giant encyclopedia.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Search is for Finding. AI is for Creating.</h2>
+          <p>
+            This is the most important difference. A search engine is designed to <span class="font-bold">find</span> existing information on the internet. An AI Chatbot, on the other hand, is designed to <span class="font-bold">create</span> something new, just for you.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-8 mt-6">
+            <div class="p-4 bg-gray-50 rounded-lg border">
+              <h3 class="text-xl font-semibold text-center mb-2">Google Search</h3>
+              <p class="text-center text-sm mb-4">(You are a Librarian)</p>
+              <p>You ask: "healthy dinner recipes"</p>
+              <p class="mt-2">It gives you: A list of links to existing recipe websites. You then have to click through them, read the recipes, and decide which one works for you.</p>
+            </div>
+            <div class="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+              <h3 class="text-xl font-semibold text-center mb-2">AI Conversation</h3>
+              <p class="text-center text-sm mb-4">(You are a Creative Partner)</p>
+              <p>You ask: "Can you give me a healthy dinner recipe that uses chicken, spinach, and tomatoes, and takes less than 30 minutes to prepare?"</p>
+              <p class="mt-2">It gives you: A brand new recipe, created just for you, with a shopping list and step-by-step instructions, all in one place.</p>
+            </div>
+          </div>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">It’s a Conversation, Not a Command</h2>
+          <p>
+            With a search engine, you type in your keywords and you’re done. With AI, it’s a back-and-forth conversation.
+          </p>
+          <p>
+            Using our recipe example, after the AI gives you the recipe, you could continue the conversation:
+          </p>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li>"That sounds great, but can you make it gluten-free?"</li>
+            <li>"What’s a good side dish to go with that?"</li>
+            <li>"Can you make this recipe for six people instead of two?"</li>
+          </ul>
+          <p>
+            You can refine, adjust, and explore ideas with AI in a way that’s simply not possible with a traditional search engine. You are in the driver’s seat of the conversation.
+          </p>
+        </div>
+    </section>
+    <section id='ai-foundations-first-conversation' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">Your First Conversation with AI</h1>
+        <p class="text-lg text-gray-600 mb-6">Lesson 3 of "AI Foundations"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Now it’s time for the fun part! Let’s have your first conversation with an AI. We are going to use a simulated AI right here on this page. It won’t be connected to the internet, but it will give you a feel for how it works.
+          </p>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Step 1: Think of a Question</h2>
+          <p>
+            Remember, you’re not just searching for facts. You’re starting a conversation. Try to ask something that requires a bit of creativity or planning. For our example, let’s pretend we’re interested in local history.
+          </p>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Step 2: Write Your Prompt</h2>
+          <p>
+            A “prompt” is simply what you write to the AI. Let’s type a prompt into the box below. Try something like: <span class="italic">"I’m new to Park City and interested in its history. What’s a good way to start exploring it?"</span>
+          </p>
+
+          <!-- Placeholder for Fake AI Chat Interface -->
+          <div id="first-conversation-interactive" class="mt-6 p-6 border-2 border-indigo-500 rounded-lg bg-gray-50">
+              <div class="flex flex-col">
+                  <textarea
+                      class="w-full p-2 border rounded-md"
+                      rows="3"
+                      placeholder="Type your prompt here..."
+                      id="first-conversation-prompt-textarea"
+                  ></textarea>
+                  <button
+                      class="mt-2 w-full sm:w-auto sm:self-end rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                      id="first-conversation-send-button"
+                  >
+                      Send
+                  </button>
+              </div>
+              <div id="first-conversation-response-container" class="hidden mt-4 p-4 bg-white border border-gray-200 rounded-lg">
+                  <h3 class="font-semibold text-gray-800">AI Response:</h3>
+                  <p class="mt-2 text-gray-700" id="first-conversation-response-text"></p>
+              </div>
+          </div>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Step 3: Read and Continue the Conversation</h2>
+          <p>
+            Look at that! The AI didn’t just give you a link. It gave you a direct suggestion and even offered a creative follow-up idea (a walking tour). This is the power of the AI Mindset. Your job is now to continue the conversation. You could ask:
+          </p>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+              <li>"Yes, please create a historical walking tour of Main Street."</li>
+              <li>"How long does it take to tour the museum?"</li>
+              <li>"Are there any other historical sites nearby?"</li>
+          </ul>
+          <p>You’re in control of the discovery process.</p>
+        </div>
+    </section>
+    <section id='ai-foundations-prompting' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">The Gentle Art of Prompting</h1>
+        <p class="text-lg text-gray-600 mb-6">Lesson 4 of "AI Foundations"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Now that you’ve had a practice conversation, let’s learn a few simple tips to get even better results from an AI. Writing a “prompt” is the single most important skill for using AI, and the good news is, it’s just like having a good conversation.
+          </p>
+          <p>
+            You don’t need special code or technical language. You just need to be clear and provide good context.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Tip 1: Give it a Role</h2>
+          <p>
+            One of the best ways to get better responses is to tell the AI who it should be. This helps it understand the tone and type of information you’re looking for.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p><strong>Instead of:</strong> "Tell me about hiking trails."</p>
+            <p class="mt-2"><strong>Try:</strong> "You are a friendly and experienced Park City hiking guide. Tell me about some easy, scenic hiking trails that are good for beginners."</p>
+          </div>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Tip 2: Provide Context and Details</h2>
+          <p>
+            The more details you give the AI, the better it can tailor the response to you. Think about the ‘who, what, where, when, why’ of your request.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt.4">
+            <p><strong>Instead of:</strong> "Give me a recipe."</p>
+            <p class="mt-2"><strong>Try:</strong> "Give me a recipe for a vegetarian dinner. I have about 45 minutes to cook, and I have bell peppers, onions, and quinoa in my pantry. I’d like something healthy but flavorful."</p>
+          </div>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Tip 3: Tell it the Format You Want</h2>
+          <p>
+            Do you want a list? A paragraph? A table? You can tell the AI exactly how to structure its answer.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p><strong>Instead of:</strong> "What are some book clubs in Park City?"</p>
+            <p class="mt-2"><strong>Try:</strong> "Please give me a list of book clubs in Park City. For each one, put it in a table with columns for the club name, the genre of books they read, and their meeting schedule."</p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Tip 4: Don’t be Afraid to Follow Up</h2>
+          <p>
+            Your first prompt is just the beginning. If the AI’s response isn’t quite right, just tell it! Use follow-up prompts to refine the answer.
+          </p>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li>"That’s a good start, but can you make it sound more casual?"</li>
+            <li>"Can you expand on your second point?"</li>
+            <li>"Please rewrite that from the perspective of a beginner."</li>
+          </ul>
+        </div>
+    </section>
+    <section id='hobbies-section' class='mb-8'>
+        <h2 class="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">AI in Your Hobbies</h2>
+        <div class="mb-8">
+          <p class="text-lg text-gray-600">
+            Discover how AI can enhance your favorite activities and hobbies! From hiking and gardening to writing and social planning, learn practical ways to incorporate AI into what you love to do.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <a href="#hobbies-hiker" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for the Hiker</h3>
+            <p class="mt-2 text-gray-700">Plan trails and identify plants.</p>
+          </a>
+          <a href="#hobbies-book-club" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for the Book Club</h3>
+            <p class="mt-2 text-gray-700">Create discussion questions.</p>
+          </a>
+          <a href="#hobbies-gardener" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for the Gardener</h3>
+            <p class="mt-2 text-gray-700">Get planting tips and identify pests.</p>
+          </a>
+          <a href="#hobbies-writer" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for the Writer</h3>
+            <p class="mt-2 text-gray-700">Brainstorm ideas and beat writer's block.</p>
+          </a>
+          <a href="#hobbies-artist" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for the Artist</h3>
+            <p class="mt-2 text-gray-700">Generate creative prompts and patterns.</p>
+          </a>
+          <a href="#hobbies-social-planner" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for the Social Planner</h3>
+            <p class="mt-2 text-gray-700">Organize outings and create itineraries.</p>
+          </a>
+        </div>
+    </section>
+    <section id='hobbies-hiker' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for the Hiker</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "AI in Your Hobbies"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Park City is a paradise for hikers, with countless trails to explore. But sometimes, planning a hike can be almost as challenging as the hike itself! This is where your AI copilot can shine.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Planning the Perfect Hike</h2>
+          <p>
+            Instead of spending hours searching different websites for trail information, you can simply ask your AI to do the planning for you. Remember to provide good context!
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "You are a friendly and experienced Park City hiking guide. I want to go for a hike this Saturday morning. There are two of us, and we are beginner-to-intermediate hikers. We’d like a trail that is around 3-4 miles long, has beautiful views of the aspens, and is not too crowded. Please suggest 3 different trails and put them in a table with columns for Trail Name, Difficulty, Length, and a brief description of the view."
+            </p>
+          </div>
+          <p class="mt-4">
+            The AI will then generate a perfectly formatted table for you, making it easy to compare your options. No more jumping between ten different browser tabs!
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Your Personal Nature Guide</h2>
+          <p>
+            Many AI tools now have the ability to see and understand images. This is a game-changer for hikers. If you have an AI app on your phone (like Gemini or Google Lens), you can take a picture of a plant or flower and ask the AI to identify it.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt (with a photo):</p>
+            <p class="mt-2 italic">
+              "I saw this beautiful purple flower on the Armstrong Trail. Can you please identify it for me? Is it native to Utah?"
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Ideas for Hikers</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Create a Packing List:</strong> "Create a packing list for a 4-hour summer hike in Park City."</li>
+            <li><strong>Generate a Fitness Plan:</strong> "I want to be able to hike the 5-mile loop at the top of the gondola in one month. I currently walk 2 miles a day. Create a simple 4-week fitness plan for me."</li>
+            <li><strong>Write a Post-Hike Summary:</strong> "I just hiked the Mid-Mountain trail. It was beautiful but challenging. Help me write a short, enthusiastic paragraph about it to share with my friends."</li>
+          </ul>
+        </div>
+    </section>
+    <section id='hobbies-book-club' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for the Book Club</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "AI in Your Hobbies"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            A book club is a wonderful way to connect with fellow newcomers and share a love of reading. Your AI copilot can act as a powerful literary assistant, helping you and your group get even more out of every book you read.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Generating Insightful Discussion Questions</h2>
+          <p>
+            Sometimes the hardest part of a book club meeting is coming up with questions that spark a good conversation. Let AI do the heavy lifting!</p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "You are a thoughtful literary critic. My book club just finished reading ‘The Lincoln Highway’ by Amor Towles. Please generate 10 open-ended discussion questions that will spark a lively conversation. Focus on themes of personal journey, friendship, and the American dream. Avoid simple plot-point questions."
+            </p>
+          </div>
+          <p class="mt-4">
+            This gives you a fantastic starting point for your meeting, ensuring the conversation goes beyond "Did you like it?".
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Finding Your Next Great Read</h2>
+          <p>
+            Choosing the next book can be a challenge. AI is brilliant at providing personalized recommendations.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "My book club enjoys historical fiction with strong female protagonists. We loved ‘The Nightingale’ by Kristin Hannah and ‘Lessons in Chemistry’ by Bonnie Garmus. Can you suggest 5 other similar books? Please provide a brief, one-paragraph summary for each suggestion."
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Ideas for Book Lovers</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Learn About the Author:</strong> "Tell me about the author Amor Towles. What was his inspiration for writing ‘The Lincoln Highway’?"</li>
+            <li><strong>Explore Themes:</strong> "What are the main literary themes in ‘Lessons in Chemistry’?"</li>
+            <li><strong>Plan a Themed Meeting:</strong> "My book club is reading ‘Where the Crawdads Sing.’ Can you suggest some simple, Southern-themed snacks and drinks we could serve at our meeting?"</li>
+          </ul>
+        </div>
+    </section>
+    <section id='hobbies-gardener' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for the Gardener</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "AI in Your Hobbies"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Gardening in Park City’s unique mountain climate can be both rewarding and challenging. Your AI copilot can be an invaluable tool, helping you diagnose problems, plan your garden, and learn more about the plants that thrive here.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Your Personal Plant Doctor</h2>
+          <p>
+            Have you ever noticed a strange spot on a leaf or a plant that just doesn’t seem to be thriving? AI can help you diagnose the issue. Simply take a clear photo of the affected plant and ask your AI for help.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt (with a photo of a spotted leaf):</p>
+            <p class="mt-2 italic">
+              "You are a master gardener who specializes in high-altitude gardening. I’m seeing these brown spots on the leaves of my tomato plants. What could be causing this, and what is a safe and organic way to treat it?"
+            </p>
+          </div>
+          <p class="mt-4">
+            The AI can analyze the image and provide potential diagnoses (like blight or a nutrient deficiency) and suggest organic treatment options.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Planning Your Perfect Garden Layout</h2>
+          <p>
+            Want to plan a new garden bed but not sure where to start? AI can help you design it based on your specific needs and environment.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "I want to create a small vegetable garden in my backyard in Park City. The garden bed is 4 feet by 8 feet and gets about 6 hours of direct sun per day. Please suggest a layout for companion plants that grow well together at high altitudes. I’m interested in growing tomatoes, carrots, lettuce, and basil. Please create a simple diagram or layout plan."
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Ideas for Gardeners</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Create a Planting Schedule:</strong> "Create a month-by-month planting schedule for a vegetable garden in Park City, Utah (Zone 5b), including when to start seeds indoors and when to transplant."</li>
+            <li><strong>Identify Mystery Plants:</strong> Take a photo of a wildflower in your yard and ask, "Can you identify this plant for me? Is it native to Utah?"</li>
+            <li><strong>Deal with Pests:</strong> "I’ve noticed aphids on my rose bushes. What are some effective organic methods to get rid of them?"</li>
+          </ul>
+        </div>
+    </section>
+    <section id='hobbies-writer' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for the Writer</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "AI in Your Hobbies"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Whether you’re journaling about your new life in Park City, writing a family history, or crafting the next great novel, every writer sometimes faces a blank page. Your AI copilot can be an incredible partner for brainstorming, overcoming writer’s block, and refining your work.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Your Brainstorming Partner</h2>
+          <p>
+            AI is a fantastic tool for generating ideas when you don’t know where to start. The key is to give it a good starting point.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "You are a creative writing coach. I want to write a short, fictional story set in a silver mine in Park City in the 1890s. Can you give me 5 different story ideas? For each idea, include a main character, a potential conflict, and a unique twist."
+            </p>
+          </div>
+          <p class="mt-4">
+            This prompt gives the AI a role, a setting, and a specific format for the output, which will result in much more useful and creative ideas than just asking for "story ideas."
+          </p>
+
+          <h2 class="2xl font-bold mt-8 mb-4">Overcoming Writer’s Block</h2>
+          <p>
+            If you’re stuck in the middle of a story, AI can help you see a way forward. You can paste in a snippet of your writing and ask for help.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "I’m writing a story and my character is stuck in a blizzard on his way to his cabin. I’m not sure what should happen next. Here is the last paragraph I wrote: [paste your paragraph here]. Can you give me three different and unexpected things that could happen next?"
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Ideas for Writers</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Refine Your Language:</strong> "Can you rewrite this sentence to be more descriptive and evocative: ‘The sunset was pretty’?"</li>
+            <li><strong>Check for Consistency:</strong> "I’m writing a novel. Can you read this chapter and check if my main character, John, who is afraid of heights, does anything that contradicts his character?"</li>
+            <li><strong>Write a Poem:</strong> "Write a short, four-stanza poem about the sound of aspen leaves in the wind."</li>
+          </ul>
+        </div>
+    </section>
+    <section id='hobbies-artist' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for the Artist</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "AI in Your Hobbies"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Whether you’re part of the ‘Creating Art Together Socially’ (CATS) group, the ‘Stitch ‘N Chat’ circle, or you simply enjoy creating, AI can be a boundless source of inspiration. It can help you visualize new ideas, generate patterns, and see the world in a completely new artistic light.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Generating Visual Ideas</h2>
+          <p>
+            This is where AI image generation tools (like Midjourney, DALL-E, or Gemini’s image generator) come in. These tools can turn your words into images. This is perfect for when you have an idea but can’t quite visualize it.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt for an Image Generator:</p>
+            <p class="mt-2 italic">
+              "A watercolor painting of a quiet aspen grove in Park City during the autumn. The style should be soft and impressionistic, with golden light filtering through the yellow leaves."
+            </p>
+          </div>
+          <p class="mt-4">
+            The AI will create several unique images based on your description. You can use these as direct inspiration for your own painting, or you can refine the prompt to explore different styles and compositions.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Creating Patterns and Designs</h2>
+          <p>
+            For members of ‘Stitch ‘N Chat’ or anyone interested in crafts, AI can be a powerful pattern-generation tool.
+          </p>
+          <div class="p-4 bg-gray-50 rounded-lg border mt-4">
+            <p class="font-semibold">Example Prompt:</p>
+            <p class="mt-2 italic">
+              "Generate a simple, seamless pattern suitable for a cross-stitch project. The design should feature minimalist mountain outlines and snowflakes. The color palette should be blues, grays, and white."
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Ideas for Artists</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Get Feedback:</strong> "Take a photo of your work in progress and ask, \"What's one thing I could do to improve the composition?\""</li>
+            <li><strong>Explore Art History:</strong> "Tell me about the artist Georgia O’Keeffe. Show me some of her paintings and explain her signature style."
+            </li>
+            <li><strong>Combine Styles:</strong> "What would a painting of Park City’s Main Street look like if it were painted in the style of Vincent van Gogh?"</li>
+          </ul>
+        </div>
+    </section>
+    <section id='hobbies-social-planner' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for the Social Planner</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "AI in Your Hobbies"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            One of the best parts of the Newcomers Club is the social outings—exploring a new restaurant, visiting a museum in Salt Lake City, or catching a show at the Egyptian Theatre. As a social planner for your friends or a club group, your AI copilot can be an amazing organizational tool.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Creating an Itinerary from Scratch</h2>
+          <p>
+            Let’s say you want to plan a day trip for a small group. Instead of juggling multiple websites for ideas, times, and locations, you can ask your AI to build a full itinerary.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "You are an expert Park City event planner. I’m organizing a day trip to Salt Lake City for a group of 4 friends in mid-January. We are interested in art and history. We want to have lunch at a casual but well-regarded restaurant that is not a chain. Please create a detailed itinerary for our day, starting around 10:00 AM and ending around 4:00 PM. Include travel time estimates from Park City. Put the itinerary in a simple timeline format."
+            </p>
+          </div>
+          <p class="mt-4">
+            The AI can generate a complete plan, including museum suggestions, lunch spots with reviews, and a realistic schedule.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Summarizing Reviews and Making Choices</h2>
+          <p>
+            Tired of reading through dozens of reviews to decide on a restaurant or activity? AI can do it for you.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "I’m trying to choose between three restaurants for a dinner outing: [Restaurant A], [Restaurant B], and [Restaurant C]. Can you find recent reviews for all three and give me a summary of the pros and cons for each, focusing on food quality, ambiance, and service?"
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Ideas for Social Planners</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Drafting Invitations:</strong> "Write a fun and casual email invitation to the ‘Denim Dining’ group for a get-together at a new Italian restaurant on Main Street."</li>
+            <li><strong>Brainstorming Group Activities:</strong> "What are 5 unique group activities we could do in or around Park City during the winter, other than skiing?"</li>
+            <li><strong>Creating Themed Events:</strong> "I’m hosting a wine tasting evening for my wine group. The theme is ‘Wines from Spain.’ Can you suggest three specific types of Spanish wine we should try, and what simple appetizers would pair well with them?"</li>
+          </ul>
+        </div>
+    </section>
+    <section id='practical-life-section' class='mb-8'>
+        <h2 class="text-3xl font-bold mb-6 text-gray-800 border-b pb-2">Practical Life Enhancement</h2>
+        <div class="mb-8">
+          <p class="text-lg text-gray-600">
+            Learn how AI can simplify your daily life! From meal planning and travel to staying connected with loved ones, discover practical ways to make everyday tasks easier and more enjoyable.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <a href="#practical-kitchen" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI in the Kitchen</h3>
+            <p class="mt-2 text-gray-700">Meal planning, recipe creation, and more.</p>
+          </a>
+          <a href="#practical-travel" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">Travel Planning Made Easy</h3>
+            <p class="mt-2 text-gray-700">Let AI help you plan your next adventure.</p>
+          </a>
+          <a href="#practical-connected" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">Staying Connected</h3>
+            <p class="mt-2 text-gray-700">How AI can help you keep in touch.</p>
+          </a>
+          <a href="#practical-productivity" class="block p-6 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h3 class="text-xl font-semibold text-indigo-600">AI for General Productivity</h3>
+            <p class="mt-2 text-gray-700">Summarizing, organizing, and communicating efficiently.</p>
+          </a>
+        </div>
+    </section>
+    <section id='practical-kitchen' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI in the Kitchen</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "Practical Life Enhancement"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Whether you’re cooking for one, entertaining guests, or planning weekly meals, your AI copilot can transform your kitchen experience. Say goodbye to mealtime dilemmas and hello to delicious, personalized solutions.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Your Personal Recipe Creator</h2>
+          <p>
+            AI can generate recipes based on your specific needs, ingredients on hand, and dietary preferences. It’s like having a world-class chef who knows exactly what’s in your pantry.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "I have chicken breasts, spinach, and canned diced tomatoes. I want a healthy, gluten-free dinner recipe that takes less than 30 minutes to prepare. Please include a short shopping list for any other ingredients I might need."
+            </p>
+          </div>
+          <p class="mt-4">
+            The AI will provide a custom recipe, complete with instructions and a tailored shopping list.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Smart Meal Planning</h2>
+          <p>
+            Planning meals for a week can be time-consuming. AI can help you create balanced meal plans, taking into account variety and leftovers.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "Create a 7-day dinner meal plan for a family of four. We enjoy Mediterranean-style food, and I’d like to include at least two vegetarian meals. Suggest ways to use leftovers creatively. Also, please provide a single consolidated shopping list for the entire week."
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Kitchen AI Ideas</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Ingredient Substitutions:</strong> "I’m out of buttermilk. What are some good substitutes for baking?"</li>
+            <li><strong>Wine Pairings:</strong> "What wine would pair best with a spicy Thai curry?"</li>
+            <li><strong>Entertaining Ideas:</strong> "I’m hosting a casual brunch for 8 people. Suggest a menu and timeline for preparation."
+            </li>
+          </ul>
+        </div>
+    </section>
+    <section id='practical-travel' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">Travel Planning Made Easy</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "Practical Life Enhancement"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Dreaming of your next adventure? Whether it’s a weekend getaway to a nearby national park or an international excursion, planning a trip can be overwhelming. Your AI copilot can take the stress out of travel planning, helping you discover destinations, build itineraries, and manage logistics.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Discovering New Destinations</h2>
+          <p>
+            Not sure where to go? Give AI some of your preferences, and it can suggest places you might love.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "I want to plan a 5-day trip within the Western United States. I love hiking, good food, and interesting museums. I prefer destinations that are not too crowded and have a relaxed vibe. What are three unique destination ideas you can suggest, along with a brief reason why each might be a good fit."
+            </p>
+          </div>
+          <p class="mt-4">
+            This can spark inspiration and introduce you to places you might not have considered.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Building Custom Itineraries</h2>
+          <p>
+            Once you have a destination, AI can help you craft a detailed, day-by-day itinerary.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "Create a 4-day itinerary for a trip to Santa Fe, New Mexico, for two adults. We enjoy art galleries, Native American culture, and Southwestern cuisine. Please include suggestions for breakfast, lunch, and dinner, as well as specific attractions to visit each day. Assume we have a rental car."
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Travel AI Ideas</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Packing Lists:</strong> "Generate a detailed packing list for a 10-day trip to Europe in the spring, including essentials, clothing for various weather, and travel documents."</li>
+            <li><strong>Local Phrases:</strong> "I’m going to Italy. What are 10 essential Italian phrases for a tourist, including how to order food and ask for directions?"</li>
+            <li><strong>Budgeting:</strong> "Help me create a budget for a weekend trip to Moab, Utah, including estimates for accommodation, food, activities, and gas."
+            </li>
+          </ul>
+        </div>
+    </section>
+    <section id='practical-connected' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">Staying Connected</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "Practical Life Enhancement"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            Moving to a new place like Park City is exciting, but it’s also important to stay connected with family and friends who might be far away. AI can be a thoughtful assistant in keeping those connections strong, helping you craft messages, remember important dates, and even suggest thoughtful gestures.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Drafting Heartfelt Messages</h2>
+          <p>
+            Sometimes finding the right words can be tough, especially for special occasions or when you want to express a complex emotion. AI can help you draft emails, text messages, or social media posts that sound just like you.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "Draft a warm and friendly email to my grandchildren, telling them about my move to Park City. Include a few exciting details about the mountains and my new activities, and tell them how much I miss them and look forward to their visit. Keep the tone loving and engaging for kids aged 8 and 10."
+            </p>
+          </div>
+          <p class="mt-4">
+            The AI can generate a thoughtful draft that you can then personalize. This is a great way to save time and ensure your messages always hit the right note.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Remembering Special Occasions</h2>
+          <p>
+            AI can help you keep track of birthdays, anniversaries, and other important dates for your loved ones. You can ask it to remind you or even help you brainstorm gift ideas.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "My daughter’s birthday is in two weeks. She loves gardening and mysteries. Can you suggest 3 unique gift ideas for her?"
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Other Connection AI Ideas</h2>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Summarize Long Emails:</strong> "I received a very long email from my sister about her recent trip. Can you summarize the key highlights for me in 3 bullet points?"</li>
+            <li><strong>Write Thank You Notes:</strong> "Draft a short, sincere thank you note to my neighbor for watering my plants while I was away."</li>
+            <li><strong>Social Media Captions:</strong> "I have a photo of me skiing with a beautiful mountain backdrop. Write 3 different captions for Instagram, one funny, one inspiring, and one simple."
+            </li>
+          </ul>
+        </div>
+    </section>
+    <section id='practical-productivity' class='mb-8'>
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">AI for General Productivity</h1>
+        <p class="text-lg text-gray-600 mb-6">A lesson from "Practical Life Enhancement"</p>
+
+        <div class="prose lg:prose-xl">
+          <p>
+            AI isn’t just for complex tasks or creative hobbies. It’s a fantastic tool for boosting your everyday productivity, helping you manage information, communicate more effectively, and save time on routine tasks. Think of it as your digital personal assistant.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Summarizing Information Quickly</h2>
+          <p>
+            Facing a long email, an online article, or a document? AI can condense it into key points, saving you valuable reading time.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "Summarize the following article into 3 key bullet points, focusing on the main takeaways for a beginner: [Paste article text here]"
+            </p>
+          </div>
+          <p class="mt-4">
+            This is incredibly useful for staying informed without getting bogged down in details.
+          </p>
+
+          <h2 class="text-2xl font-bold mt-8 mb-4">Organizing Your Thoughts</h2>
+          <p>
+            Need to brainstorm ideas, plan a presentation, or outline a new project? AI can help structure your thoughts and generate new angles you might not have considered.
+          </p>
+          <div class="p-4 bg-indigo-100 rounded-lg border border-indigo-200 mt-4">
+            <p class="font-semibold text-indigo-800">Example Prompt:</p>
+            <p class="mt-2 italic text-indigo-700">
+              "I’m planning a presentation on ‘Healthy Aging in Park City’. Can you outline 5 main sections for the presentation, and suggest 3 key points for each section?"
+            </p>
+          </div>
+          
+          <h2 class="text-2xl font-bold mt-8 mb-4">Communicating More Effectively</h2>
+          <p>
+            AI can help you draft emails, letters, or even social media posts with the right tone and clarity.
+          </p>
+          <ul class="list-disc pl-6 space-y-2 mt-4">
+            <li><strong>Drafting a polite inquiry:</strong> "Write a polite email to my neighbor asking if they’d be willing to share their Wi-Fi password for a few days while mine is being repaired."</li>
+            <li><strong>Creating a clear announcement:</strong> "Draft a short, clear announcement for the Newcomers Club about an upcoming change in the monthly coffee social location, stating the new address, date, and time."
+            </li>
+          </ul>
+        </div>
+    </section>
+</div>
+</main>
+<footer class="bg-gray-800 text-white p-4 mt-8">
+  <div class="container mx-auto text-center">
+    <p>&copy; 2025 Park City Newcomers Club. All Rights Reserved.</p>
+  </div>
+</footer>
+<script src="scripts/main.js"></script>
 </body>
 </html>
