@@ -183,8 +183,8 @@ function renderBreadcrumbs(lessonId) {
     if (!metadata) return '';
 
     let breadcrumbHTML = `
-        <nav aria-label="Breadcrumb" class="mb-6">
-            <ol class="flex flex-wrap items-center space-x-2 text-sm text-gray-600">
+        <nav aria-label="Breadcrumb" class="mb-4 text-xs text-gray-500">
+            <ol class="flex flex-wrap items-center gap-1">
                 <li>
                     <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
                 </li>
@@ -193,29 +193,19 @@ function renderBreadcrumbs(lessonId) {
     if (metadata.isOverview) {
         // For overview pages, just show Home > Part
         breadcrumbHTML += `
-                <li class="flex items-center">
-                    <svg class="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                    <span class="text-gray-800 font-medium">${metadata.title.replace(' Overview', '')}</span>
-                </li>
+                <li class="text-gray-400">/</li>
+                <li class="text-gray-700">${metadata.title.replace(' Overview', '')}</li>
         `;
     } else {
         // For lesson pages, show Home > Part > Lesson
         const partInfo = PART_METADATA[metadata.part];
         breadcrumbHTML += `
-                <li class="flex items-center">
-                    <svg class="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
+                <li class="text-gray-400">/</li>
+                <li>
                     <a href="#${partInfo.overviewId}" class="hover:text-indigo-600 transition-colors">${metadata.partName}</a>
                 </li>
-                <li class="flex items-center">
-                    <svg class="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                    <span class="text-gray-800 font-medium">${metadata.title}</span>
-                </li>
+                <li class="text-gray-400">/</li>
+                <li class="text-gray-700">${metadata.title}</li>
         `;
     }
 
@@ -273,15 +263,13 @@ function renderPrevNextNav(lessonId) {
             );
             if (firstLessonId) {
                 return `
-                    <div class="mt-12 pt-8 border-t border-gray-200">
-                        <div class="flex justify-end">
-                            <a href="?lesson=${firstLessonId}" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
-                                <span class="mr-2">Start First Lesson</span>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                                </svg>
-                            </a>
-                        </div>
+                    <div class="mt-10 pt-6 border-t border-gray-200 flex justify-end">
+                        <a href="?lesson=${firstLessonId}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
+                            Start First Lesson
+                            <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
                     </div>
                 `;
             }
@@ -292,41 +280,37 @@ function renderPrevNextNav(lessonId) {
     const prevMetadata = metadata.prevLesson ? LESSON_METADATA[metadata.prevLesson] : null;
     const nextMetadata = metadata.nextLesson ? LESSON_METADATA[metadata.nextLesson] : null;
 
+    if (!prevMetadata && !nextMetadata) return '';
+
     let navHTML = `
-        <div class="mt-12 pt-8 border-t border-gray-200">
-            <div class="grid gap-4 ${prevMetadata && nextMetadata ? 'md:grid-cols-2' : 'grid-cols-1'}">
+        <div class="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between text-sm">
     `;
 
     if (prevMetadata) {
         navHTML += `
-                <a href="?lesson=${metadata.prevLesson}" class="group flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all">
-                    <svg class="w-6 h-6 text-gray-400 group-hover:text-indigo-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
-                    </svg>
-                    <div class="text-left">
-                        <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Previous</div>
-                        <div class="text-sm font-semibold text-gray-800 group-hover:text-indigo-700">${prevMetadata.title}</div>
-                    </div>
-                </a>
+            <a href="?lesson=${metadata.prevLesson}" class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors group">
+                <svg class="w-4 h-4 mr-1.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="font-medium">${prevMetadata.title}</span>
+            </a>
         `;
+    } else {
+        navHTML += `<span></span>`;
     }
 
     if (nextMetadata) {
         navHTML += `
-                <a href="?lesson=${metadata.nextLesson}" class="group flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all ${prevMetadata ? 'justify-end text-right md:text-left md:justify-start' : ''}">
-                    <div class="${prevMetadata ? 'md:text-left' : 'text-left'}">
-                        <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Next</div>
-                        <div class="text-sm font-semibold text-gray-800 group-hover:text-indigo-700">${nextMetadata.title}</div>
-                    </div>
-                    <svg class="w-6 h-6 text-gray-400 group-hover:text-indigo-600 ml-auto md:ml-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                    </svg>
-                </a>
+            <a href="?lesson=${metadata.nextLesson}" class="flex items-center text-gray-600 hover:text-indigo-600 transition-colors group">
+                <span class="font-medium">${nextMetadata.title}</span>
+                <svg class="w-4 h-4 ml-1.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
         `;
     }
 
     navHTML += `
-            </div>
         </div>
     `;
 
@@ -387,9 +371,9 @@ function enhanceOverviewCards(lessonContentContainer) {
 
 // Initialize keyboard navigation
 function initKeyboardNavigation() {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', (event) => {
         // Ignore if user is typing in input/textarea
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
 
@@ -399,11 +383,11 @@ function initKeyboardNavigation() {
         const metadata = LESSON_METADATA[currentLesson];
         if (!metadata || metadata.isOverview) return;
 
-        if (e.key === 'ArrowLeft' && metadata.prevLesson) {
-            e.preventDefault();
+        if (event.key === 'ArrowLeft' && metadata.prevLesson) {
+            event.preventDefault();
             navigateToLesson(metadata.prevLesson);
-        } else if (e.key === 'ArrowRight' && metadata.nextLesson) {
-            e.preventDefault();
+        } else if (event.key === 'ArrowRight' && metadata.nextLesson) {
+            event.preventDefault();
             navigateToLesson(metadata.nextLesson);
         }
     });
