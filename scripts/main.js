@@ -182,39 +182,34 @@ function renderBreadcrumbs(lessonId) {
     const metadata = LESSON_METADATA[lessonId];
     if (!metadata) return '';
 
-    let breadcrumbHTML = `
-        <nav aria-label="Breadcrumb" class="mb-4 text-xs text-gray-500">
-            <ol class="flex flex-wrap items-center gap-1">
-                <li>
-                    <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
-                </li>
-    `;
-
     if (metadata.isOverview) {
         // For overview pages, just show Home > Part
-        breadcrumbHTML += `
-                <li class="text-gray-400">/</li>
-                <li class="text-gray-700">${metadata.title.replace(' Overview', '')}</li>
+        return `
+            <nav aria-label="Breadcrumb" class="mb-6 text-sm text-gray-600 flex items-center gap-2">
+                <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span class="text-gray-800">${metadata.title.replace(' Overview', '')}</span>
+            </nav>
         `;
     } else {
         // For lesson pages, show Home > Part > Lesson
         const partInfo = PART_METADATA[metadata.part];
-        breadcrumbHTML += `
-                <li class="text-gray-400">/</li>
-                <li>
-                    <a href="#${partInfo.overviewId}" class="hover:text-indigo-600 transition-colors">${metadata.partName}</a>
-                </li>
-                <li class="text-gray-400">/</li>
-                <li class="text-gray-700">${metadata.title}</li>
+        return `
+            <nav aria-label="Breadcrumb" class="mb-6 text-sm text-gray-600 flex items-center gap-2 flex-wrap">
+                <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
+                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <a href="#${partInfo.overviewId}" class="hover:text-indigo-600 transition-colors">${metadata.partName}</a>
+                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span class="text-gray-800">${metadata.title}</span>
+            </nav>
         `;
     }
-
-    breadcrumbHTML += `
-            </ol>
-        </nav>
-    `;
-
-    return breadcrumbHTML;
 }
 
 // Update active state in header navigation
