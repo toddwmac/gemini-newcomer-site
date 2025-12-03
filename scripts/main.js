@@ -228,14 +228,21 @@ function renderPrevNextNav(lessonId) {
 
     if (!prevMetadata && !nextMetadata) return '';
 
+    let prevLink = '';
+    let nextLink = '';
+
+    if (prevMetadata) {
+        prevLink = `<a href="?lesson=${metadata.prevLesson}" class="text-gray-400 hover:text-indigo-600 transition-colors">← ${prevMetadata.title}</a>`;
+    }
+
+    if (nextMetadata) {
+        nextLink = `<a href="?lesson=${metadata.nextLesson}" class="text-gray-400 hover:text-indigo-600 transition-colors">${nextMetadata.title} →</a>`;
+    }
+
     return `
-        <div class="mt-12 pt-6 border-t border-gray-200 flex justify-between text-xs text-gray-500">
-            <div>
-                ${prevMetadata ? `<a href="?lesson=${metadata.prevLesson}" class="text-indigo-600 hover:text-indigo-700 font-medium">← ${prevMetadata.title}</a>` : ''}
-            </div>
-            <div>
-                ${nextMetadata ? `<a href="?lesson=${metadata.nextLesson}" class="text-indigo-600 hover:text-indigo-700 font-medium">${nextMetadata.title} →</a>` : ''}
-            </div>
+        <div class="mt-16 pt-8 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500 gap-4">
+            ${prevLink ? `<div>${prevLink}</div>` : '<div></div>'}
+            ${nextLink ? `<div class="text-right">${nextLink}</div>` : '<div></div>'}
         </div>
     `;
 }
