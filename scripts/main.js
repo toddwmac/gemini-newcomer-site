@@ -3,6 +3,412 @@
 // Navigation Router - Simplified Architecture
 // Uses query parameters as primary method, hash as fallback for backward compatibility
 
+// ========================================
+// LESSON METADATA - Foundation for Navigation Features
+// ========================================
+
+const PART_METADATA = {
+    "ai-foundations": {
+        name: "AI Foundations",
+        overviewId: "ai-foundations-section",
+        totalLessons: 4
+    },
+    "hobbies": {
+        name: "AI in Your Hobbies",
+        overviewId: "hobbies-section",
+        totalLessons: 6
+    },
+    "practical": {
+        name: "Practical Life Enhancement",
+        overviewId: "practical-life-section",
+        totalLessons: 4
+    }
+};
+
+const LESSON_METADATA = {
+    // AI Foundations Overview
+    "ai-foundations-section": {
+        part: null,
+        partName: null,
+        title: "AI Foundations Overview",
+        order: null,
+        isOverview: true,
+        nextLesson: null,
+        prevLesson: null
+    },
+    // AI Foundations Lessons
+    "ai-foundations-welcome": {
+        part: "ai-foundations",
+        partName: "AI Foundations",
+        title: "Welcome to Your AI Copilot",
+        order: 1,
+        nextLesson: "ai-foundations-beyond-search",
+        prevLesson: null
+    },
+    "ai-foundations-beyond-search": {
+        part: "ai-foundations",
+        partName: "AI Foundations",
+        title: "Beyond a Search Engine",
+        order: 2,
+        nextLesson: "ai-foundations-first-conversation",
+        prevLesson: "ai-foundations-welcome"
+    },
+    "ai-foundations-first-conversation": {
+        part: "ai-foundations",
+        partName: "AI Foundations",
+        title: "Your First Conversation with AI",
+        order: 3,
+        nextLesson: "ai-foundations-prompting",
+        prevLesson: "ai-foundations-beyond-search"
+    },
+    "ai-foundations-prompting": {
+        part: "ai-foundations",
+        partName: "AI Foundations",
+        title: "The Gentle Art of Prompting",
+        order: 4,
+        nextLesson: null,
+        prevLesson: "ai-foundations-first-conversation"
+    },
+    // Hobbies Overview
+    "hobbies-section": {
+        part: null,
+        partName: null,
+        title: "AI in Your Hobbies Overview",
+        order: null,
+        isOverview: true,
+        nextLesson: null,
+        prevLesson: null
+    },
+    // Hobbies Lessons
+    "hobbies-hiker": {
+        part: "hobbies",
+        partName: "AI in Your Hobbies",
+        title: "AI for the Hiker",
+        order: 1,
+        nextLesson: "hobbies-book-club",
+        prevLesson: null
+    },
+    "hobbies-book-club": {
+        part: "hobbies",
+        partName: "AI in Your Hobbies",
+        title: "AI for the Book Club",
+        order: 2,
+        nextLesson: "hobbies-gardener",
+        prevLesson: "hobbies-hiker"
+    },
+    "hobbies-gardener": {
+        part: "hobbies",
+        partName: "AI in Your Hobbies",
+        title: "AI for the Gardener",
+        order: 3,
+        nextLesson: "hobbies-writer",
+        prevLesson: "hobbies-book-club"
+    },
+    "hobbies-writer": {
+        part: "hobbies",
+        partName: "AI in Your Hobbies",
+        title: "AI for the Writer",
+        order: 4,
+        nextLesson: "hobbies-artist",
+        prevLesson: "hobbies-gardener"
+    },
+    "hobbies-artist": {
+        part: "hobbies",
+        partName: "AI in Your Hobbies",
+        title: "AI for the Artist",
+        order: 5,
+        nextLesson: "hobbies-social-planner",
+        prevLesson: "hobbies-writer"
+    },
+    "hobbies-social-planner": {
+        part: "hobbies",
+        partName: "AI in Your Hobbies",
+        title: "AI for the Social Planner",
+        order: 6,
+        nextLesson: null,
+        prevLesson: "hobbies-artist"
+    },
+    // Practical Life Overview
+    "practical-life-section": {
+        part: null,
+        partName: null,
+        title: "Practical Life Enhancement Overview",
+        order: null,
+        isOverview: true,
+        nextLesson: null,
+        prevLesson: null
+    },
+    // Practical Life Lessons
+    "practical-kitchen": {
+        part: "practical",
+        partName: "Practical Life Enhancement",
+        title: "AI in the Kitchen",
+        order: 1,
+        nextLesson: "practical-travel",
+        prevLesson: null
+    },
+    "practical-travel": {
+        part: "practical",
+        partName: "Practical Life Enhancement",
+        title: "Travel Planning Made Easy",
+        order: 2,
+        nextLesson: "practical-connected",
+        prevLesson: "practical-kitchen"
+    },
+    "practical-connected": {
+        part: "practical",
+        partName: "Practical Life Enhancement",
+        title: "Staying Connected",
+        order: 3,
+        nextLesson: "practical-productivity",
+        prevLesson: "practical-travel"
+    },
+    "practical-productivity": {
+        part: "practical",
+        partName: "Practical Life Enhancement",
+        title: "AI for General Productivity",
+        order: 4,
+        nextLesson: null,
+        prevLesson: "practical-connected"
+    }
+};
+
+// ========================================
+// NAVIGATION RENDERING FUNCTIONS
+// ========================================
+
+// Render breadcrumb navigation
+function renderBreadcrumbs(lessonId) {
+    const metadata = LESSON_METADATA[lessonId];
+    if (!metadata) return '';
+
+    let breadcrumbHTML = `
+        <nav aria-label="Breadcrumb" class="mb-6">
+            <ol class="flex flex-wrap items-center space-x-2 text-sm text-gray-600">
+                <li>
+                    <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
+                </li>
+    `;
+
+    if (metadata.isOverview) {
+        // For overview pages, just show Home > Part
+        breadcrumbHTML += `
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                    <span class="text-gray-800 font-medium">${metadata.title.replace(' Overview', '')}</span>
+                </li>
+        `;
+    } else {
+        // For lesson pages, show Home > Part > Lesson
+        const partInfo = PART_METADATA[metadata.part];
+        breadcrumbHTML += `
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                    <a href="#${partInfo.overviewId}" class="hover:text-indigo-600 transition-colors">${metadata.partName}</a>
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                    <span class="text-gray-800 font-medium">${metadata.title}</span>
+                </li>
+        `;
+    }
+
+    breadcrumbHTML += `
+            </ol>
+        </nav>
+    `;
+
+    return breadcrumbHTML;
+}
+
+// Update active state in header navigation
+function updateHeaderActiveState(lessonId) {
+    // Remove all active states
+    const headerLinks = document.querySelectorAll('header nav a');
+    headerLinks.forEach(link => {
+        link.classList.remove('text-indigo-300', 'border-b-4', 'border-indigo-500', 'pb-1');
+        link.classList.add('hover:text-gray-300');
+    });
+
+    if (!lessonId) return;
+
+    const metadata = LESSON_METADATA[lessonId];
+    if (!metadata) return;
+
+    // Determine which header link to highlight
+    let targetHash = '';
+    if (metadata.isOverview) {
+        targetHash = `#${lessonId}`;
+    } else {
+        const partInfo = PART_METADATA[metadata.part];
+        targetHash = `#${partInfo.overviewId}`;
+    }
+
+    // Find and highlight the appropriate header link
+    const activeLink = document.querySelector(`header nav a[href="${targetHash}"]`);
+    if (activeLink) {
+        activeLink.classList.remove('hover:text-gray-300');
+        activeLink.classList.add('text-indigo-300', 'border-b-4', 'border-indigo-500', 'pb-1');
+    }
+}
+
+// Render previous/next navigation
+function renderPrevNextNav(lessonId) {
+    const metadata = LESSON_METADATA[lessonId];
+    if (!metadata) return '';
+
+    if (metadata.isOverview) {
+        // For overview pages, show "Start first lesson" button
+        const partInfo = Object.values(PART_METADATA).find(p => p.overviewId === lessonId);
+        if (partInfo) {
+            const firstLessonId = Object.keys(LESSON_METADATA).find(id =>
+                LESSON_METADATA[id].part === Object.keys(PART_METADATA).find(pk => PART_METADATA[pk].overviewId === lessonId) &&
+                LESSON_METADATA[id].order === 1
+            );
+            if (firstLessonId) {
+                return `
+                    <div class="mt-12 pt-8 border-t border-gray-200">
+                        <div class="flex justify-end">
+                            <a href="?lesson=${firstLessonId}" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                                <span class="mr-2">Start First Lesson</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        return '';
+    }
+
+    const prevMetadata = metadata.prevLesson ? LESSON_METADATA[metadata.prevLesson] : null;
+    const nextMetadata = metadata.nextLesson ? LESSON_METADATA[metadata.nextLesson] : null;
+
+    let navHTML = `
+        <div class="mt-12 pt-8 border-t border-gray-200">
+            <div class="grid gap-4 ${prevMetadata && nextMetadata ? 'md:grid-cols-2' : 'grid-cols-1'}">
+    `;
+
+    if (prevMetadata) {
+        navHTML += `
+                <a href="?lesson=${metadata.prevLesson}" class="group flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all">
+                    <svg class="w-6 h-6 text-gray-400 group-hover:text-indigo-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+                    </svg>
+                    <div class="text-left">
+                        <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Previous</div>
+                        <div class="text-sm font-semibold text-gray-800 group-hover:text-indigo-700">${prevMetadata.title}</div>
+                    </div>
+                </a>
+        `;
+    }
+
+    if (nextMetadata) {
+        navHTML += `
+                <a href="?lesson=${metadata.nextLesson}" class="group flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all ${prevMetadata ? 'justify-end text-right md:text-left md:justify-start' : ''}">
+                    <div class="${prevMetadata ? 'md:text-left' : 'text-left'}">
+                        <div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Next</div>
+                        <div class="text-sm font-semibold text-gray-800 group-hover:text-indigo-700">${nextMetadata.title}</div>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-400 group-hover:text-indigo-600 ml-auto md:ml-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+        `;
+    }
+
+    navHTML += `
+            </div>
+        </div>
+    `;
+
+    return navHTML;
+}
+
+// Render lesson metadata (position in series)
+function renderLessonMetadata(lessonId) {
+    const metadata = LESSON_METADATA[lessonId];
+    if (!metadata || metadata.isOverview) return '';
+
+    const partInfo = PART_METADATA[metadata.part];
+
+    return `
+        <div class="flex items-center justify-between mb-6 pb-6 border-b border-gray-100">
+            <div>
+                <p class="text-sm text-indigo-600 font-medium">
+                    ${metadata.partName}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">
+                    Lesson ${metadata.order} of ${partInfo.totalLessons}
+                </p>
+            </div>
+        </div>
+    `;
+}
+
+// Enhance overview cards with progress badges
+function enhanceOverviewCards(lessonContentContainer) {
+    // Get progress from localStorage
+    const progressKey = "pcn-ai-lesson-progress";
+    const progress = JSON.parse(localStorage.getItem(progressKey)) || {};
+
+    // Find all lesson cards in overview
+    const lessonCards = lessonContentContainer.querySelectorAll('a[href*="#ai-foundations-"], a[href*="#hobbies-"], a[href*="#practical-"]');
+
+    lessonCards.forEach(card => {
+        const href = card.getAttribute('href');
+        const lessonId = href.substring(href.indexOf('#') + 1);
+
+        if (progress[lessonId]) {
+            // Add completed badge
+            if (!card.classList.contains('relative')) {
+                card.classList.add('relative');
+            }
+
+            // Check if badge already exists
+            if (!card.querySelector('.completion-badge')) {
+                const badge = document.createElement('div');
+                badge.className = 'completion-badge absolute top-3 right-3 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg';
+                badge.innerHTML = '✓';
+                badge.title = 'Completed';
+                card.appendChild(badge);
+            }
+        }
+    });
+}
+
+// Initialize keyboard navigation
+function initKeyboardNavigation() {
+    document.addEventListener('keydown', (e) => {
+        // Ignore if user is typing in input/textarea
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+
+        const currentLesson = getLessonFromURL();
+        if (!currentLesson) return;
+
+        const metadata = LESSON_METADATA[currentLesson];
+        if (!metadata || metadata.isOverview) return;
+
+        if (e.key === 'ArrowLeft' && metadata.prevLesson) {
+            e.preventDefault();
+            navigateToLesson(metadata.prevLesson);
+        } else if (e.key === 'ArrowRight' && metadata.nextLesson) {
+            e.preventDefault();
+            navigateToLesson(metadata.nextLesson);
+        }
+    });
+}
+
 // Get lesson ID from URL (checks query param first, then hash)
 function getLessonFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,13 +451,14 @@ function navigateToLesson(lessonId) {
 document.addEventListener("DOMContentLoaded", function() {
     loadHeader();
     loadFooter();
-    
+
     // Initialize interactive features
     initAIConversation();
     initNavigation();
     initInteractiveCards();
     initProgressTracking();
     initThemeToggle();
+    initKeyboardNavigation();
     
     // Handle initial page load - check for lesson in URL
     const lessonId = getLessonFromURL();
@@ -70,12 +477,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const lessonId = getLessonFromURL();
         if (lessonId) {
             loadLessonContent(lessonId);
+            updateHeaderActiveState(lessonId);
         } else {
             // No lesson in URL, clear content
             const container = document.getElementById("lesson-content-container");
             if (container) {
                 container.innerHTML = "";
             }
+            updateHeaderActiveState(null);
         }
     });
 });
@@ -127,13 +536,39 @@ async function loadLessonContent(lessonId) {
         }
         const lessonHtml = await response.text();
         console.log("Lesson content loaded successfully, length:", lessonHtml.length);
-        lessonContentContainer.innerHTML = lessonHtml;
+
+        // Build complete content with navigation elements
+        let completeContent = '';
+
+        // Add breadcrumbs
+        completeContent += renderBreadcrumbs(lessonId);
+
+        // Add lesson metadata (for non-overview lessons)
+        if (!LESSON_METADATA[lessonId]?.isOverview) {
+            completeContent += renderLessonMetadata(lessonId);
+        }
+
+        // Add the lesson content
+        completeContent += lessonHtml;
+
+        // Add prev/next navigation
+        completeContent += renderPrevNextNav(lessonId);
+
+        lessonContentContainer.innerHTML = completeContent;
+
+        // Update header active state
+        updateHeaderActiveState(lessonId);
 
         // Re-initialize interactive elements for the newly loaded content
         initAIConversation(); // Only if the loaded content contains the AI conversation elements
         initInteractiveCards(); // For any new cards within the loaded lesson
         initProgressTracking(); // To apply progress tracking to the new lesson
-        
+
+        // Enhance overview cards with progress badges if this is an overview page
+        if (LESSON_METADATA[lessonId]?.isOverview) {
+            enhanceOverviewCards(lessonContentContainer);
+        }
+
         // Scroll to the top of the loaded content
         lessonContentContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
