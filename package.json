@@ -10,7 +10,9 @@
     "serve": "npx http-server -p 8080"
   },
   "homepage": "https://<YOUR_GITHUB_USERNAME>.github.io/gemini-newcomer-site/",
-  "dependencies": {},
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.19"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
     "http-server": "^14.1.1",
